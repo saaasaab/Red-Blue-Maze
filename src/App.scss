@@ -1,0 +1,109 @@
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.maze-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  .top-bar {
+    height: 60px;
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+
+    .top-bar-controls{
+      display: flex;
+      gap: 1rem;
+    }
+
+    button {
+      font-size: 1.2rem;
+      padding: 0.4rem 0.8rem;
+    }
+    .score{
+       font-size: 1.4rem;
+    }
+  }
+}
+.maze {
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  padding: 20px;
+}
+
+.row {
+  display: flex;
+}
+
+.line {
+  position: absolute;
+  background-color: #ccc;
+  z-index: 0;
+}
+.cell.block {
+  background-color: #111;
+  pointer-events: none;
+}
+.line.top {
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 25px;
+}
+
+.line.left {
+  left: -25px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 25px;
+  height: 6px;
+}
+
+.cell {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #ccc;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  transition: background-color 0.3s;
+}
+
+.cell.blocked {
+  background-color: #333;
+  pointer-events: none;
+}
+
+.cell.active {
+  background-color: #d2f0d2;
+}
+
+.cell.invalid {
+  background-color: #f8d7da;
+}
+
+.dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+}
+
+.dot.red {
+  background-color: red;
+}
+
+.dot.blue {
+  background-color: blue;
+}
