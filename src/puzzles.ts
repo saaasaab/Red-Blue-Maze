@@ -22,7 +22,7 @@ export const defaultPuzzle = [
 ]
 export const puzzles: Record<string, (string | null)[][]> =
 {
-    "2025-3-26": [
+    "2025-03-26": [
         [BLOCK, BLOCK, BLOCK, BLOCK, RED, EMPTY, EMPTY, STARTBLUE],
         [BLOCK, RED, EMPTY, EMPTY, EMPTY, BLOCK, EMPTY, BLOCK],
         [BLOCK, EMPTY, BLOCK, BLUE, EMPTY, BLOCK, EMPTY, BLOCK],
@@ -35,7 +35,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [BLOCK, BLOCK, EMPTY, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK],
         [ENDRED, EMPTY, BLUE, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK],
     ],
-    "2025-3-27": [
+    "2025-03-27": [
         [BLOCK, BLOCK, BLOCK, BLOCK, BLUE, EMPTY, EMPTY, STARTRED],
         [BLOCK, BLUE, EMPTY, EMPTY, EMPTY, BLOCK, EMPTY, BLOCK],
         [BLOCK, EMPTY, BLOCK, EMPTY, EMPTY, BLOCK, EMPTY, BLOCK],
@@ -48,7 +48,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [BLOCK, BLOCK, EMPTY, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK],
         [ENDBLUE, EMPTY, RED, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK],
     ],
-    "2025-3-28": [
+    "2025-03-28": [
         [BLOCK, BLOCK, EMPTY, RED, EMPTY, BLUE, EMPTY, ENDRED],
         [BLOCK, BLOCK, EMPTY, BLOCK, BLUE, BLOCK, RED, BLOCK],
         [EMPTY, BLUE, EMPTY, RED, EMPTY, EMPTY, EMPTY, BLOCK],
@@ -60,6 +60,20 @@ export const puzzles: Record<string, (string | null)[][]> =
         [EMPTY, BLUE, EMPTY, RED, EMPTY, BLUE, EMPTY, BLOCK],
         [BLOCK, BLOCK, BLUE, BLOCK, BLUE, BLOCK, RED, BLOCK],
         [BLOCK, BLOCK, EMPTY, RED, EMPTY, BLUE, EMPTY, STARTRED],
+    ],
+    "2025-03-29": [
+        // This is the one from https://puzzling.stackexchange.com/questions/47243/a-blue-white-and-red-maze
+        [ENDBLUE, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK],
+        [EMPTY, BLUE, EMPTY, RED, EMPTY, EMPTY, EMPTY, BLOCK],
+        [EMPTY, BLOCK, RED, BLOCK, EMPTY, BLOCK, RED, BLOCK],
+        [EMPTY, EMPTY, EMPTY, BLUE, EMPTY, BLUE, EMPTY, BLOCK],
+        [BLUE, BLOCK, EMPTY, BLOCK, EMPTY, BLOCK, EMPTY, BLOCK],
+        [EMPTY, EMPTY, EMPTY, BLUE, EMPTY, EMPTY, EMPTY, BLOCK],
+        [RED, BLOCK, BLUE, BLOCK, RED, BLOCK, BLUE, BLOCK],
+        [EMPTY, RED, EMPTY, EMPTY, EMPTY, RED, EMPTY, BLOCK],
+        [EMPTY, BLOCK, EMPTY, BLOCK, EMPTY, BLOCK, EMPTY, BLOCK],
+        [EMPTY, EMPTY, EMPTY, RED, EMPTY, EMPTY, EMPTY, BLOCK],
+        [BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, STARTRED, BLOCK],
     ]
 
 

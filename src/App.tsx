@@ -4,7 +4,7 @@ import './App.scss';
 import sketch from './sketch.ts';
 import ScorePage from './ScorePage.tsx';
 import { Coord, findSpecialCells, getTodayDate, } from './utils.ts';
-import { puzzles , defaultPuzzle } from './puzzles.ts'
+import { puzzles, defaultPuzzle } from './puzzles.ts'
 
 function App() {
   const startTime = Date.now();
@@ -27,25 +27,62 @@ function App() {
 
   const pathRef = useRef<[number, number][]>([]);
   const mazeDotsRef = useRef<(string | null)[][]>([]);
-  const startRef = useRef<Coord>([0,0]);
-  const endRef = useRef<[number, number]>([0,0]);
+  const startRef = useRef<Coord>([0, 0]);
+  const endRef = useRef<[number, number]>([0, 0]);
 
 
 
-  
 
-  
-  
+
+
+
   useEffect(() => {
     // const testPath = generateRandomPath(rows, cols, 61, start, end)
 
     // const testMaze = generateMazeFromPath(rows, cols, testPath);
 
     const today = getTodayDate()
+    const RED = 'red';
+    const BLUE = 'blue';
+    const EMPTY = null;
+    const BLOCK = 'block';
+    const STARTRED = 'start-red'
+    // const STARTBLUE = 'start-blue'
+    // const ENDRED = 'end-red';
+    const ENDBLUE = 'end-blue'
 
-    mazeDotsRef.current = puzzles[today] ? puzzles[today] : defaultPuzzle;
-    
-    
+    mazeDotsRef.current = [
+      [ENDBLUE, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK],
+      [EMPTY, BLUE, EMPTY, RED, EMPTY, EMPTY, EMPTY, BLOCK],
+      [EMPTY, BLOCK, RED, BLOCK, EMPTY, BLOCK, RED, BLOCK],
+      [EMPTY, EMPTY, EMPTY, BLUE, EMPTY, BLUE, EMPTY, BLOCK],
+      [BLUE, BLOCK, EMPTY, BLOCK, EMPTY, BLOCK, EMPTY, BLOCK],
+      [EMPTY, EMPTY, EMPTY, BLUE, EMPTY, EMPTY, EMPTY, BLOCK],
+      [RED, BLOCK, BLUE, BLOCK, RED, BLOCK, BLUE, BLOCK],
+      [EMPTY, RED, EMPTY, EMPTY, EMPTY, RED, EMPTY, BLOCK],
+      [EMPTY, BLOCK, EMPTY, BLOCK, EMPTY, BLOCK, EMPTY, BLOCK],
+      [EMPTY, EMPTY, EMPTY, RED, EMPTY, EMPTY, EMPTY, BLOCK],
+      [BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, STARTRED, BLOCK],
+    ]
+
+
+
+    // [
+    //   [BLOCK, BLOCK, BLOCK, BLOCK, BLUE, EMPTY, EMPTY, BLOCK],
+    //   [BLOCK, EMPTY, EMPTY, RED, EMPTY, BLOCK, EMPTY, BLOCK],
+    //   [BLOCK, RED, BLOCK, EMPTY, EMPTY, BLOCK, EMPTY, BLOCK],
+    //   [BLOCK, EMPTY, BLOCK, BLOCK, EMPTY, EMPTY, EMPTY, BLOCK],
+    //   [BLOCK, EMPTY, EMPTY, BLUE, BLOCK, BLOCK, RED, BLOCK],
+    //   [BLOCK, BLOCK, EMPTY, BLOCK, BLOCK, BLOCK, EMPTY, BLOCK],
+    //   [BLOCK, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, BLOCK],
+    //   [BLOCK, BLOCK, BLOCK, BLOCK, BLUE, BLOCK, EMPTY, BLOCK],
+    //   [BLOCK, RED, EMPTY, EMPTY, RED, EMPTY, BLUE, BLOCK],
+    //   [STARTBLUE, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, ENDBLUE],
+    // ]
+
+    puzzles[today] ? puzzles[today] : defaultPuzzle;
+
+
     // GPT 2
     // [
     //   [BLOCK,BLOCK,BLOCK,BLOCK,BLUE,EMPTY,EMPTY,STARTRED],
@@ -60,7 +97,7 @@ function App() {
     //   [BLOCK,BLOCK,EMPTY,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK],
     //   [ENDBLUE,EMPTY,RED,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK],
     // ]
-    
+
     // GPT 1
     // [
     //   [BLOCK,BLOCK,BLOCK,BLOCK,RED,EMPTY,EMPTY,STARTBLUE],
@@ -75,7 +112,7 @@ function App() {
     //   [BLOCK,BLOCK,EMPTY,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK],
     //   [ENDRED,EMPTY,BLUE,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK],
     // ]
-    
+
     // ME CREATED
     // [
     //   [BLOCK,BLOCK,BLOCK,BLOCK,BLUE,EMPTY,EMPTY,STARTRED],
@@ -92,13 +129,12 @@ function App() {
     //   ]
 
     // FROM PUZZLE
-   
-      const {start, end } = findSpecialCells(mazeDotsRef.current)
 
-      startRef.current = start
-      endRef.current = end
+    const { start, end } = findSpecialCells(mazeDotsRef.current)
 
-      console.log(`start,end`, start,end)
+    startRef.current = start
+    endRef.current = end
+
     // pathRef.current = testPath;
 
   }, [])
@@ -113,7 +149,7 @@ function App() {
     let start = startRef.current
     let end = endRef.current
 
-    const s = sketch({ canvasRef, pathRef, onWin, mazeDotsRef, start , end});
+    const s = sketch({ canvasRef, pathRef, onWin, mazeDotsRef, start, end });
     const p5Instance = new p5(s);
     return () => p5Instance.remove();
   }, []);
@@ -122,7 +158,6 @@ function App() {
     const endTime = Date.now();
     const duration = Math.floor((endTime - startTime) / 1000);
 
-    console.log(`duration`, duration)
     setTimeInSeconds(duration);
 
 
@@ -141,6 +176,18 @@ function App() {
 
 
 
+  const onClickUndoHandler = () => {
+    if (pathRef.current.length > 0) {
+      pathRef.current.pop();
+      setUndoCount(undoCount + 1);
+    }
+  }
+
+  const onClickResethandler = () => {
+    pathRef.current.length = 0;
+    setResetCount(resetCount + 1);
+  }
+
 
   return (
     <div className="maze-container">
@@ -157,21 +204,15 @@ function App() {
         </div>
         <div className="top-bar-controls">
           <button
-            onClick={() => {
-              if (pathRef.current.length > 0) {
-                pathRef.current.pop();
-                setUndoCount(undoCount + 1);
-              }
-            }}
+            onClick={onClickUndoHandler}
+            onTouchStart={onClickUndoHandler}
 
           >
             🔙 Undo
           </button>
           <button
-            onClick={() => {
-              pathRef.current.length = 0;
-              setResetCount(resetCount + 1);
-            }}
+            onClick={onClickResethandler}
+            onTouchStart={onClickResethandler}
 
           >
             🔄 Reset

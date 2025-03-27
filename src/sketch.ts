@@ -24,12 +24,8 @@ function getFittingCellSize(rows: number, cols: number): number {
 
 export default function sketch(params: ISketch) {
 
-  const { canvasRef, pathRef, onWin, mazeDotsRef, start:START, end: END } = params;
-
-
+  const { canvasRef, pathRef, onWin, mazeDotsRef, start: START, end: END } = params;
   const mazeDots = mazeDotsRef.current;
-
-
 
   let hoverCell: [number, number] | null = null;
   let hoverStartTime: number = 0;
@@ -37,24 +33,13 @@ export default function sketch(params: ISketch) {
 
 
 
-  // let mazeDots: (string | null)[][];
   let path = pathRef.current;
   let cellSize = getFittingCellSize(mazeDots.length, mazeDots[0].length)
   let isDragging = false;
-  // let lastPassedColor = null;
   let isInvalidPath = false;
-  // let START = [10, 7];
-  // let END = [0, 7];
-
-
-
-
-
 
 
   return (p: p5) => {
-
-
     p.preload = () => {
     };
 
@@ -70,7 +55,6 @@ export default function sketch(params: ISketch) {
         canvas.parent(canvasRef.current);
         p.cursor(p.ARROW)
       }
-
 
       // mazeDots = [
       //   ['block', 'block', null, 'red', null, 'blue', null, 'red'],
@@ -107,6 +91,8 @@ export default function sketch(params: ISketch) {
 
       drawHoverEffect()
       updateHoverState(); // 👈 track hover
+
+      drawCurrentDot();
     }
 
     p.mouseDragged = () => {
@@ -245,7 +231,7 @@ export default function sketch(params: ISketch) {
 
     function drawGrid() {
       p.stroke(200);
-      p.strokeWeight(cellSize/24)
+      p.strokeWeight(cellSize / 24)
       for (let i = 0; i < mazeDots.length; i++) {
         for (let j = 0; j < mazeDots[0].length; j++) {
           p.fill(mazeDots[i][j] === 'block' ? 50 : 255);
@@ -265,8 +251,19 @@ export default function sketch(params: ISketch) {
           else {
             continue;
           }
-          p.ellipse(j * cellSize + cellSize / 2, i * cellSize + cellSize / 2, cellSize/3);
+          p.ellipse(j * cellSize + cellSize / 2, i * cellSize + cellSize / 2, cellSize / 3);
         }
+      }
+    }
+
+
+    function drawCurrentDot() {
+      p.stroke(200);
+      p.strokeWeight(cellSize / 10);
+      if (path.length > 0) {
+        const cell = path[path.length - 1];
+        p.noFill();
+        p.ellipse(cell[1] * cellSize + cellSize / 2, cell[0] * cellSize + cellSize / 2, cellSize / 2);
       }
     }
 
@@ -316,7 +313,7 @@ export default function sketch(params: ISketch) {
       p.fill('green');
 
       p.textSize(cellSize / 3.5);
-      p. textStyle(p.BOLD);
+      p.textStyle(p.BOLD);
       p.textAlign(p.CENTER, p.TOP);
 
       if (path.length === 0) {
@@ -402,7 +399,14 @@ export default function sketch(params: ISketch) {
       let endMatch = path[path.length - 1][0] === END[0] && path[path.length - 1][1] === END[1];
       return startMatch && endMatch && !isInvalid();
     }
+
+
+    // function getLastPassedColor(){
+
+    // }
   };
+
+
 }
 
 
