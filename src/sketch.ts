@@ -1,5 +1,5 @@
 import p5 from "p5";
-import { Coord } from "./utils";
+import { Coord, isInvalid } from "./utils";
 
 interface ISketch {
   canvasRef: React.RefObject<HTMLDivElement | null>;
@@ -8,6 +8,7 @@ interface ISketch {
   mazeDotsRef: React.RefObject<(string | null)[][]>
   start: Coord;
   end: Coord;
+  visited: Map<string, Set<string>> | null;
 
 
 }
@@ -19,12 +20,12 @@ function getFittingCellSize(rows: number, cols: number): number {
   const maxCellWidth = screenWidth / cols;
   const maxCellHeight = screenHeight / rows;
 
-  return Math.floor(Math.min(maxCellWidth, maxCellHeight));
+  return Math.min(Math.floor(Math.min(maxCellWidth, maxCellHeight)),100);
 }
 
 export default function sketch(params: ISketch) {
 
-  const { canvasRef, pathRef, onWin, mazeDotsRef, start: START, end: END } = params;
+  const { canvasRef, pathRef, onWin, mazeDotsRef, start: START, end: END ,visited } = params;
   const mazeDots = mazeDotsRef.current;
 
   let hoverCell: [number, number] | null = null;
@@ -55,21 +56,6 @@ export default function sketch(params: ISketch) {
         canvas.parent(canvasRef.current);
         p.cursor(p.ARROW)
       }
-
-      // mazeDots = [
-      //   ['block', 'block', null, 'red', null, 'blue', null, 'red'],
-      //   ['block', 'block', null, 'block', 'blue', 'block', 'red', 'block'],
-      //   [null, 'blue', null, 'red', null, null, null, 'block'],
-      //   [null, 'block', 'red', 'block', 'red', 'block', null, 'block'],
-      //   [null, 'block', null, 'blue', null, null, null, 'block'],
-      //   ['red', 'block', null, 'block', 'block', 'block', 'block', 'block'],
-      //   [null, 'block', null, 'red', null, null, null, 'block'],
-      //   [null, 'block', 'blue', 'block', 'red', 'block', null, 'block'],
-      //   [null, 'blue', null, 'red', null, 'blue', null, 'block'],
-      //   ['block', 'block', 'blue', 'block', 'blue', 'block', 'red', 'block'],
-      //   ['block', 'block', null, 'red', null, 'blue', null, 'red'],
-      // ];
-
     };
 
 
@@ -93,14 +79,18 @@ export default function sketch(params: ISketch) {
       updateHoverState(); // 👈 track hover
 
       drawCurrentDot();
+      // drawVisited();
     }
 
     p.mouseDragged = () => {
-      if (!isDragging) return;
+      let last = path[path.length - 1];
+
+
+      if (!isDragging || !last) return;
       let [i, j] = getCell(p.mouseX, p.mouseY);
       if (!isValid(i, j)) return;
-      if (isInvalid()) return;
-      let last = path[path.length - 1];
+      if (isInvalid(path, mazeDots)) return;
+
       if ((last[0] !== i || last[1] !== j) && isAdjacent(i, j, last)) {
         path.push([i, j]);
 
@@ -144,6 +134,34 @@ export default function sketch(params: ISketch) {
     p.touchEnded = () => {
       p.mouseReleased();
       return false;
+    }
+
+
+    function drawVisited() {
+      if(!visited) return;
+      visited.forEach((colorSet, coordStr) => {
+        const [r, c] = coordStr.split(',').map(Number);
+    
+        if (colorSet.has('red')) {
+          p.fill(255, 0, 0);
+          p.noStroke();
+          p.ellipse(
+            c * cellSize + cellSize * 0.2,
+            r * cellSize + cellSize * 0.2,
+            cellSize * 0.2
+          );
+        }
+    
+        if (colorSet.has('blue')) {
+          p.fill(0, 0, 255);
+          p.noStroke();
+          p.ellipse(
+            c * cellSize + cellSize * 0.8,
+            r * cellSize + cellSize * 0.2,
+            cellSize * 0.2
+          );
+        }
+      });
     }
 
     function getFillColor(cell: string | null) {
@@ -295,7 +313,7 @@ export default function sketch(params: ISketch) {
 
         p.stroke(count > 1 ? '#333' : 'green')
 
-        if (isInvalid()) {
+        if (isInvalid(path,mazeDots)) {
           p.stroke('orange')
         }
 
@@ -349,55 +367,14 @@ export default function sketch(params: ISketch) {
     }
 
 
-    function hasAdjacentSameColor(path: [number, number][], mazeDots: (string | null | 'block')[][]): boolean {
-      // Filter out empty/null cells from the path
-      const coloredPath = path.filter(([i, j]) => {
-        const cell = mazeDots[i][j];
-        return cell === 'red' || cell === 'blue';
-      });
-
-      // Loop through adjacent pairs and compare colors
-      for (let k = 1; k < coloredPath.length; k++) {
-        const [prevI, prevJ] = coloredPath[k - 1];
-        const [currI, currJ] = coloredPath[k];
-        const prevColor = mazeDots[prevI][prevJ];
-        const currColor = mazeDots[currI][currJ];
-        if (prevColor === currColor) {
-          return true; // Found two adjacent colored cells with the same color
-        }
-      }
-
-      return false; // No invalid adjacent colors found
-    }
-    function hasUTurn(path: [number, number][], mazeDots: (string | null | 'block')[][]): boolean {
-      for (let i = 2; i < path.length; i++) {
-        const [prevI, prevJ] = path[i - 2];
-        const [midI, midJ] = path[i - 1];
-        const [currI, currJ] = path[i];
 
 
-        const midColor = mazeDots[midI][midJ];
-        if (midColor === 'red' || midColor === 'blue') {
-          if (prevI === currI && prevJ === currJ) {
-            return true;
-          }
-        }
-      }
-      return false;
-    }
-
-    function isInvalid() {
-      const hasConsecutiveColors = hasAdjacentSameColor(path, mazeDots);
-      const isUTurn = hasUTurn(path, mazeDots);
-      isInvalidPath = hasConsecutiveColors || isUTurn
-      return isInvalidPath
-    }
 
     function isWin() {
       if (path.length === 0) return false;
       let startMatch = path[0][0] === START[0] && path[0][1] === START[1];
       let endMatch = path[path.length - 1][0] === END[0] && path[path.length - 1][1] === END[1];
-      return startMatch && endMatch && !isInvalid();
+      return startMatch && endMatch && !isInvalid(path,mazeDots);
     }
 
 

@@ -16,8 +16,8 @@ export function findSpecialCells(maze: (string | null)[][]): {
   start: Coord;
   end: Coord;
 } {
-  let start: [number, number] = [0,0];
-  let end: [number, number]= [0,0]
+  let start: [number, number] = [0, 0];
+  let end: [number, number] = [0, 0]
 
   for (let i = 0; i < maze.length; i++) {
     for (let j = 0; j < maze[i].length; j++) {
@@ -31,8 +31,6 @@ export function findSpecialCells(maze: (string | null)[][]): {
         maze[i][j] = 'blue'
       }
       if (cell === 'start-blue') {
-
-        console.log(`i,j`, i,j)
         start = [i, j];
         maze[i][j] = 'blue'
 
@@ -79,19 +77,45 @@ export function generateMazeFromPath(rows: number, cols: number, path: Coord[]):
 
 
   // const colors: Cell[] = ['red', 'blue'];
-
+  let lastColor = null
   for (let i = 0; i < path.length; i++) {
 
+
     const [r, c] = path[i];
+
+
+    const number = Math.random();
+
+    if (i === 0) {
+      const color = number < .5 ? 'red' : "blue";
+      maze[r][c] = color;
+      lastColor = color;
+    }
+    else if (i === path.length - 1) {
+
+      const color: 'red' | 'blue' = lastColor === 'red' ? 'blue' : 'red';
+      maze[r][c] = color;
+      lastColor = color
+    }
+
+    else if (number < 0.3) {
+      const color: 'red' | 'blue' = lastColor === 'red' ? 'blue' : 'red';
+      maze[r][c] = color;
+      lastColor = color
+    }
+
+    else maze[r][c] = null
     // Assign color every 2-3 steps, rest are left null for difficulty
-    maze[r][c] = 'red';//colors[i % colors.length];
   }
+
+
+
 
   // Optionally add some blocks to non-path cells
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
       const inPath = path.some(([pr, pc]) => pr === r && pc === c);
-      if (!inPath && Math.random() < 0.1) {
+      if (!inPath && Math.random() < 0.9) {
         maze[r][c] = 'block';
       }
     }
@@ -154,7 +178,6 @@ function heuristic(a: Coord, b: Coord): number {
 export function aStarPath(start: Coord, end: Coord, rows: number, cols: number): Coord[] | null {
   // Create the beginning to end in the shortest distance wiht A*.
 
-
   const openSet: Set<string> = new Set([start.toString()]);
   const cameFrom: Map<string, string> = new Map();
   const gScore: Map<string, number> = new Map();
@@ -176,7 +199,6 @@ export function aStarPath(start: Coord, end: Coord, rows: number, cols: number):
 
     const [r, c] = currentStr.split(',').map(Number) as Coord;
     if (r === end[0] && c === end[1]) {
-
       basePath = [];
       let current = currentStr;
       while (current !== start.toString()) {
@@ -216,8 +238,166 @@ export function aStarPath(start: Coord, end: Coord, rows: number, cols: number):
 }
 
 
+export function hasAdjacentSameColor(path: [number, number][], mazeDots: (string | null | 'block')[][]): boolean {
+  // Filter out empty/null cells from the path
 
-export function removeUTurns(path: Coord[]): [Coord[],boolean] {
+
+  const coloredPath = path.filter(([i, j]) => {
+    const cell = mazeDots[i]?.[j];
+    return cell === 'red' || cell === 'blue';
+  });
+
+  // Loop through adjacent pairs and compare colors
+  for (let k = 1; k < coloredPath.length; k++) {
+    const [prevI, prevJ] = coloredPath[k - 1];
+    const [currI, currJ] = coloredPath[k];
+    const prevColor = mazeDots[prevI][prevJ];
+    const currColor = mazeDots[currI][currJ];
+
+    if (prevColor === currColor) {
+      return true; // Found two adjacent colored cells with the same color
+    }
+  }
+
+  return false; // No invalid adjacent colors found
+}
+
+export function hasUTurn(path: [number, number][], mazeDots: (string | null | 'block')[][]): boolean {
+  for (let i = 2; i < path.length; i++) {
+    const [prevI, prevJ] = path[i - 2];
+    const [midI, midJ] = path[i - 1];
+    const [currI, currJ] = path[i];
+
+
+    const midColor = mazeDots[midI][midJ];
+    if (midColor === 'red' || midColor === 'blue') {
+      if (prevI === currI && prevJ === currJ) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function pathCrossesBlockedTiles(path: Coord[], mazeDots: (string | null)[][]): boolean {
+  for (const [r, c] of path) {
+    if (mazeDots[r]?.[c] === 'block') {
+      return true; // crossed a black/block tile
+    }
+  }
+  return false;
+}
+
+
+export function isInvalid(path: Coord[], mazeDots: (string | null)[][]) {
+  const hasConsecutiveColors = hasAdjacentSameColor(path, mazeDots);
+
+  const isUTurn = hasUTurn(path, mazeDots);
+  const crossesBlock = pathCrossesBlockedTiles(path, mazeDots);
+
+  const isInvalidPath = hasConsecutiveColors || isUTurn || crossesBlock
+
+  return isInvalidPath
+}
+
+
+
+
+function constructPath(currentStr: string, start: Coord, cameFrom: Map<string, string>) {
+  let basePath: Coord[] = [];
+  let current = currentStr;
+  while (current !== start.toString()) {
+    const [ri, ci] = current.split(',').map(Number) as Coord;
+    basePath.unshift([ri, ci]);
+    current = cameFrom.get(current)!;
+  }
+  basePath.unshift(start);
+
+  return basePath
+}
+
+
+
+function getLastPassedColor(path: Coord[], mazeDots: (string | null)[][]): 'red' | 'blue' {
+  for (let i = path.length - 1; i >= 0; i--) {
+    const [r, c] = path[i];
+    const val = mazeDots[r]?.[c];
+    if (val === 'red' || val === 'blue') {
+      return val;
+    }
+  }
+  return 'red'; // No colored tile in path
+}
+
+
+// !!IT WORKS!!! 3/29/2025 at 10:44 pm
+export function searchValidPathBFS(
+  start: Coord,
+  end: Coord,
+  mazeDots: (null | string)[][]
+): { path: Coord[], visited: Map<string, Set<string>> } {
+  const rows = mazeDots.length;
+  const cols = mazeDots[0].length;
+  const directions: Coord[] = [
+    [-1, 0], [1, 0], [0, -1], [0, 1]
+  ];
+
+  const queue: Coord[][] = [[start]];
+  const visited: Map<string, Set<string>> = new Map(); // key = "r,c", value = Set of previous colors
+
+  function key([r, c]: Coord): string {
+    return `${r},${c}`;
+  }
+
+  while (queue.length > 0) {
+    const path = queue.shift()!;
+    const current = path[path.length - 1];
+    const currentKey = key(current);
+
+    if (current[0] === end[0] && current[1] === end[1] && !isInvalid(path, mazeDots)) {
+      return { path, visited };
+    }
+
+    const previous = path.length >= 2 ? path[path.length - 2] : null;
+    const previousColor = getLastPassedColor(path, mazeDots);
+    const currentVal = mazeDots[current[0]][current[1]];
+
+    // ✅ Only skip/add visited state for white (null) tiles
+    if (currentVal === null) {
+      const seenColors = visited.get(currentKey) ?? new Set<string>();
+      if (seenColors.has(previousColor)) continue;
+      seenColors.add(previousColor);
+      visited.set(currentKey, seenColors);
+    }
+
+    for (const [dr, dc] of directions) {
+      const nr = current[0] + dr;
+      const nc = current[1] + dc;
+      const next: Coord = [nr, nc];
+
+      if (
+        nr < 0 || nr >= rows ||
+        nc < 0 || nc >= cols ||
+        mazeDots[nr][nc] === 'block'
+      ) continue;
+
+      // Prevent U-turn (going back to previous cell)
+      if (previous && nr === previous[0] && nc === previous[1]) continue;
+
+      const nextPath = [...path, next];
+
+      if (!isInvalid(nextPath, mazeDots)) {
+        queue.push(nextPath);
+      }
+    }
+  }
+
+  return { path: [], visited };
+}
+
+
+
+export function removeUTurns(path: Coord[]): [Coord[], boolean] {
   let cleaned: Coord[] = [...path];
   let hasUTurn = false;
   for (let i = 2; i < cleaned.length; i++) {
@@ -225,11 +405,11 @@ export function removeUTurns(path: Coord[]): [Coord[],boolean] {
     const [currI, currJ] = cleaned[i];
     if (prevI === currI && prevJ === currJ) {
       cleaned.splice(i - 1, 1);
-      hasUTurn=true
+      hasUTurn = true
       break;
     }
   }
-  return [cleaned,hasUTurn];
+  return [cleaned, hasUTurn];
 
 }
 
@@ -242,7 +422,7 @@ export function generateRandomPath(rows: number, cols: number, start: Coord, end
 
 
   // Reroute 3–4 internal points
-  const rerouteCount = 2//getRandomInt(2, 1)
+  const rerouteCount = 4//getRandomInt(2, 1)
 
   for (let i = 0; i < rerouteCount; i++) {
 
@@ -286,15 +466,13 @@ export function generateRandomPath(rows: number, cols: number, start: Coord, end
 
 
   let uTurnsExist = true;
-  let _path=[...path];
+  let _path = [...path];
 
   while (uTurnsExist) {
-    const [cleaned,hasUTurn] = removeUTurns(_path); 
-    _path=[...cleaned];
-    uTurnsExist=hasUTurn
+    const [cleaned, hasUTurn] = removeUTurns(_path);
+    _path = [...cleaned];
+    uTurnsExist = hasUTurn
   }
-  
-
 
   return _path;
 }

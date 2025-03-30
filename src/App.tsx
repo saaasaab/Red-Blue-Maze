@@ -3,7 +3,7 @@ import p5 from 'p5';
 import './App.scss';
 import sketch from './sketch.ts';
 import ScorePage from './ScorePage.tsx';
-import { Coord, findSpecialCells, getTodayDate, } from './utils.ts';
+import { Coord, findSpecialCells, generateMazeFromPath, generateRandomPath, getRandomStartEndCorners, getTodayDate, searchValidPathBFS, } from './utils.ts';
 import { puzzles, defaultPuzzle } from './puzzles.ts'
 
 function App() {
@@ -18,28 +18,32 @@ function App() {
 
 
 
-  // const rows = 11;
-  // const cols = 8;
+  const rows = 11;
+  const cols = 8;
 
 
 
   // const { start, end } = getRandomStartEndCorners(rows, cols);
-
+  // 
   const pathRef = useRef<[number, number][]>([]);
   const mazeDotsRef = useRef<(string | null)[][]>([]);
   const startRef = useRef<Coord>([0, 0]);
   const endRef = useRef<[number, number]>([0, 0]);
+  const visitedRef = useRef<(Map<string, Set<string>>) | null>(null);
 
 
 
+  // 
+  const { start, end } = getRandomStartEndCorners(rows, cols);
 
 
 
 
   useEffect(() => {
-    // const testPath = generateRandomPath(rows, cols, 61, start, end)
 
-    // const testMaze = generateMazeFromPath(rows, cols, testPath);
+    const testPath = generateRandomPath(rows, cols, start, end)
+
+    const testMaze = generateMazeFromPath(rows, cols, testPath);
 
     const today = getTodayDate()
     const RED = 'red';
@@ -47,40 +51,56 @@ function App() {
     const EMPTY = null;
     const BLOCK = 'block';
     const STARTRED = 'start-red'
-    // const STARTBLUE = 'start-blue'
-    // const ENDRED = 'end-red';
+    const STARTBLUE = 'start-blue'
+    const ENDRED = 'end-red';
     const ENDBLUE = 'end-blue'
-
-    mazeDotsRef.current = [
-      [ENDBLUE, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK],
-      [EMPTY, BLUE, EMPTY, RED, EMPTY, EMPTY, EMPTY, BLOCK],
-      [EMPTY, BLOCK, RED, BLOCK, EMPTY, BLOCK, RED, BLOCK],
-      [EMPTY, EMPTY, EMPTY, BLUE, EMPTY, BLUE, EMPTY, BLOCK],
-      [BLUE, BLOCK, EMPTY, BLOCK, EMPTY, BLOCK, EMPTY, BLOCK],
-      [EMPTY, EMPTY, EMPTY, BLUE, EMPTY, EMPTY, EMPTY, BLOCK],
-      [RED, BLOCK, BLUE, BLOCK, RED, BLOCK, BLUE, BLOCK],
-      [EMPTY, RED, EMPTY, EMPTY, EMPTY, RED, EMPTY, BLOCK],
-      [EMPTY, BLOCK, EMPTY, BLOCK, EMPTY, BLOCK, EMPTY, BLOCK],
-      [EMPTY, EMPTY, EMPTY, RED, EMPTY, EMPTY, EMPTY, BLOCK],
-      [BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, STARTRED, BLOCK],
-    ]
-
-
+    mazeDotsRef.current=testMaze;
+    // mazeDotsRef.current =    
+    //  [
+    //     [ENDBLUE, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK],
+    //     [EMPTY, BLUE, EMPTY, RED, EMPTY, EMPTY, EMPTY, BLOCK],
+    //     [EMPTY, BLOCK, RED, BLOCK, EMPTY, BLOCK, RED, BLOCK],
+    //     [EMPTY, EMPTY, EMPTY, BLUE, EMPTY, BLUE, EMPTY, BLOCK],
+    //     [BLUE, BLOCK, EMPTY, BLOCK, EMPTY, BLOCK, EMPTY, BLOCK],
+    //     [EMPTY, EMPTY, EMPTY, BLUE, EMPTY, EMPTY, EMPTY, BLOCK],
+    //     [RED, BLOCK, BLUE, BLOCK, RED, BLOCK, BLUE, BLOCK],
+    //     [EMPTY, RED, EMPTY, EMPTY, EMPTY, RED, EMPTY, BLOCK],
+    //     [EMPTY, BLOCK, EMPTY, BLOCK, EMPTY, BLOCK, EMPTY, BLOCK],
+    //     [EMPTY, EMPTY, EMPTY, RED, EMPTY, EMPTY, EMPTY, BLOCK],
+    //     [BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, STARTRED, BLOCK],
+    //   ]
+  
+    
+    // /
+    
+    // [[BLOCK, BLOCK, EMPTY, RED, EMPTY, BLUE, EMPTY, ENDRED],
+    // [BLOCK, BLOCK, EMPTY, BLOCK, BLUE, BLOCK, RED, BLOCK],
+    // [EMPTY, BLUE, EMPTY, RED, EMPTY, EMPTY, EMPTY, BLOCK],
+    // [EMPTY, BLOCK, RED, BLOCK, RED, BLOCK, EMPTY, BLOCK],
+    // [EMPTY, BLOCK, EMPTY, BLUE, EMPTY, EMPTY, EMPTY, BLOCK],
+    // [RED, BLOCK, EMPTY, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK],
+    // [EMPTY, BLOCK, EMPTY, RED, EMPTY, EMPTY, EMPTY, BLOCK],
+    // [EMPTY, BLOCK, BLUE, BLOCK, RED, BLOCK, EMPTY, BLOCK],
+    // [EMPTY, BLUE, EMPTY, RED, EMPTY, BLUE, EMPTY, BLOCK],
+    // [BLOCK, BLOCK, BLUE, BLOCK, BLUE, BLOCK, RED, BLOCK],
+    // [BLOCK, BLOCK, EMPTY, RED, EMPTY, BLUE, EMPTY, STARTRED]]
+    
+ 
 
     // [
-    //   [BLOCK, BLOCK, BLOCK, BLOCK, BLUE, EMPTY, EMPTY, BLOCK],
-    //   [BLOCK, EMPTY, EMPTY, RED, EMPTY, BLOCK, EMPTY, BLOCK],
-    //   [BLOCK, RED, BLOCK, EMPTY, EMPTY, BLOCK, EMPTY, BLOCK],
-    //   [BLOCK, EMPTY, BLOCK, BLOCK, EMPTY, EMPTY, EMPTY, BLOCK],
-    //   [BLOCK, EMPTY, EMPTY, BLUE, BLOCK, BLOCK, RED, BLOCK],
-    //   [BLOCK, BLOCK, EMPTY, BLOCK, BLOCK, BLOCK, EMPTY, BLOCK],
-    //   [BLOCK, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, BLOCK],
-    //   [BLOCK, BLOCK, BLOCK, BLOCK, BLUE, BLOCK, EMPTY, BLOCK],
-    //   [BLOCK, RED, EMPTY, EMPTY, RED, EMPTY, BLUE, BLOCK],
-    //   [STARTBLUE, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, ENDBLUE],
+    //   [ENDBLUE, BLOCK, BLOCK, BLOCK],
+    //   [RED, BLUE, EMPTY, RED],
+    //   [EMPTY, BLOCK, RED, BLOCK],
+    //   [EMPTY, EMPTY, BLUE,STARTRED],
+
     // ]
 
-    puzzles[today] ? puzzles[today] : defaultPuzzle;
+
+    // CURRENT GOOD ONE
+
+
+
+    // puzzles[today] ? puzzles[today] : defaultPuzzle;
 
 
     // GPT 2
@@ -130,13 +150,19 @@ function App() {
 
     // FROM PUZZLE
 
-    const { start, end } = findSpecialCells(mazeDotsRef.current)
+    // const { start, end } = findSpecialCells(mazeDotsRef.current)
 
     startRef.current = start
     endRef.current = end
 
-    // pathRef.current = testPath;
 
+    const { path, visited } = searchValidPathBFS(
+      start,
+      end,
+      mazeDotsRef.current)
+
+    pathRef.current = path;
+    visitedRef.current = visited;
   }, [])
 
 
@@ -149,7 +175,7 @@ function App() {
     let start = startRef.current
     let end = endRef.current
 
-    const s = sketch({ canvasRef, pathRef, onWin, mazeDotsRef, start, end });
+    const s = sketch({ canvasRef, pathRef, onWin, mazeDotsRef, start, end, visited:visitedRef.current });
     const p5Instance = new p5(s);
     return () => p5Instance.remove();
   }, []);
