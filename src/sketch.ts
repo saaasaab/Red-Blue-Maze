@@ -20,12 +20,12 @@ function getFittingCellSize(rows: number, cols: number): number {
   const maxCellWidth = screenWidth / cols;
   const maxCellHeight = screenHeight / rows;
 
-  return Math.min(Math.floor(Math.min(maxCellWidth, maxCellHeight)),100);
+  return Math.min(Math.floor(Math.min(maxCellWidth, maxCellHeight)), 100);
 }
 
 export default function sketch(params: ISketch) {
 
-  const { canvasRef, pathRef, onWin, mazeDotsRef, start: START, end: END ,visited } = params;
+  const { canvasRef, pathRef, onWin, mazeDotsRef, start: START, end: END } = params;  // ,visited 
   const mazeDots = mazeDotsRef.current;
 
   let hoverCell: [number, number] | null = null;
@@ -37,7 +37,7 @@ export default function sketch(params: ISketch) {
   let path = pathRef.current;
   let cellSize = getFittingCellSize(mazeDots.length, mazeDots[0].length)
   let isDragging = false;
-  let isInvalidPath = false;
+  // let isInvalidPath = false;
 
 
   return (p: p5) => {
@@ -50,8 +50,9 @@ export default function sketch(params: ISketch) {
       p.angleMode(p.DEGREES);
 
 
+
       if (canvasRef.current) {
-        const canvas = p.createCanvas(8 * cellSize, 11 * cellSize);
+        const canvas = p.createCanvas(mazeDots[0].length * cellSize, mazeDots.length * cellSize);
 
         canvas.parent(canvasRef.current);
         p.cursor(p.ARROW)
@@ -66,12 +67,15 @@ export default function sketch(params: ISketch) {
       drawPath();
       drawDots();
       drawStartEnd();
+
+
       if (isWin()) {
         onWin();
         p.fill(0, 200, 0);
         p.textSize(32);
         p.textAlign(p.CENTER);
         p.text('You Win!', p.width / 2, p.height / 2);
+        p.noLoop();
       }
 
 
@@ -104,7 +108,7 @@ export default function sketch(params: ISketch) {
     p.mousePressed = () => {
       let [i, j] = getCell(p.mouseX, p.mouseY);
       if (!isValid(i, j)) return;
-      if (i === START[0] && j === START[1]) {
+      if (i === START[0] && j === START[1] && path.length === 0) {
         path = [[i, j]];
         // lastPassedColor = isColor(i, j) ? mazeDots[i][j] : null;
       } else if (path.length > 0 && isAdjacent(i, j, path[path.length - 1])) {
@@ -137,32 +141,32 @@ export default function sketch(params: ISketch) {
     }
 
 
-    function drawVisited() {
-      if(!visited) return;
-      visited.forEach((colorSet, coordStr) => {
-        const [r, c] = coordStr.split(',').map(Number);
-    
-        if (colorSet.has('red')) {
-          p.fill(255, 0, 0);
-          p.noStroke();
-          p.ellipse(
-            c * cellSize + cellSize * 0.2,
-            r * cellSize + cellSize * 0.2,
-            cellSize * 0.2
-          );
-        }
-    
-        if (colorSet.has('blue')) {
-          p.fill(0, 0, 255);
-          p.noStroke();
-          p.ellipse(
-            c * cellSize + cellSize * 0.8,
-            r * cellSize + cellSize * 0.2,
-            cellSize * 0.2
-          );
-        }
-      });
-    }
+    // function drawVisited() {
+    //   if(!visited) return;
+    //   visited.forEach((colorSet, coordStr) => {
+    //     const [r, c] = coordStr.split(',').map(Number);
+
+    //     if (colorSet.has('red')) {
+    //       p.fill(255, 0, 0);
+    //       p.noStroke();
+    //       p.ellipse(
+    //         c * cellSize + cellSize * 0.2,
+    //         r * cellSize + cellSize * 0.2,
+    //         cellSize * 0.2
+    //       );
+    //     }
+
+    //     if (colorSet.has('blue')) {
+    //       p.fill(0, 0, 255);
+    //       p.noStroke();
+    //       p.ellipse(
+    //         c * cellSize + cellSize * 0.8,
+    //         r * cellSize + cellSize * 0.2,
+    //         cellSize * 0.2
+    //       );
+    //     }
+    //   });
+    // }
 
     function getFillColor(cell: string | null) {
       if (cell === "blue") {
@@ -313,7 +317,7 @@ export default function sketch(params: ISketch) {
 
         p.stroke(count > 1 ? '#333' : 'green')
 
-        if (isInvalid(path,mazeDots)) {
+        if (isInvalid(path, mazeDots)) {
           p.stroke('orange')
         }
 
@@ -334,13 +338,8 @@ export default function sketch(params: ISketch) {
       p.textStyle(p.BOLD);
       p.textAlign(p.CENTER, p.TOP);
 
-      if (path.length === 0) {
-        p.text('START', START[1] * cellSize + cellSize / 2, START[0] * cellSize + cellSize / 12);
-      }
-      else {
-        p.text('Reset', START[1] * cellSize + cellSize / 2, START[0] * cellSize + cellSize / 12);
-
-      }
+      // if (path.length === 0) {
+      p.text('START', START[1] * cellSize + cellSize / 2, START[0] * cellSize + cellSize / 12);
       p.text('END', END[1] * cellSize + cellSize / 2, END[0] * cellSize + cellSize / 12);
     }
 
@@ -374,7 +373,7 @@ export default function sketch(params: ISketch) {
       if (path.length === 0) return false;
       let startMatch = path[0][0] === START[0] && path[0][1] === START[1];
       let endMatch = path[path.length - 1][0] === END[0] && path[path.length - 1][1] === END[1];
-      return startMatch && endMatch && !isInvalid(path,mazeDots);
+      return startMatch && endMatch && !isInvalid(path, mazeDots);
     }
 
 

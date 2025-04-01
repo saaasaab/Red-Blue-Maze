@@ -5,35 +5,37 @@ interface ScoreData {
     streak: number;
     length: number;
     timeInSeconds?: number;
-    // difficulty: string;
+    
     
 }
 
 const LOCAL_STORAGE_KEY = 'maze-score';
 
-export default function ScorePage({ pathRef, mazeRef, timeInSeconds }: {
+export default function ScorePage({ pathRef, mazeRef, timeInSeconds,onClose,onNewMaze }: {
     pathRef: React.RefObject<[number, number][]>;
     mazeRef: React.RefObject<(string | null | 'block')[][]>;
     timeInSeconds: number;
+    onClose: () => void;
+    onNewMaze: ()=> void;
 }) {
-    const [score, setScore] = useState<ScoreData>({ streak: 0, length: 0, timeInSeconds: undefined }); //, difficulty: 'Easy' 
 
+    const [score, setScore] = useState<ScoreData>({ streak: 0, length: 0, timeInSeconds: undefined }); 
     useEffect(() => {
         const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+
         const today = new Date().toISOString().split('T')[0];
         const currentLength = pathRef.current?.length || 0;
-        // const difficulty = currentLength < 10 ? 'Easy' : currentLength < 20 ? 'Medium' : 'Hard';
 
         let updatedScore: ScoreData & { lastCompleted: string } = {
             streak: 1,
             length: currentLength,
-            // difficulty,
             lastCompleted: today,
             timeInSeconds
         };
 
         if (saved) {
             const parsed = JSON.parse(saved);
+
             const lastDate = parsed.lastCompleted;
             const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
 
@@ -85,7 +87,15 @@ Play at: your-maze-game.com`;
 
 
             <div className="score-card">
-                <h2>🎉 Your Maze Score</h2>
+            <button className="close-button" onClick={onClose}>✖</button>
+                <h2>🎉 CONGRATS! </h2>
+                <h2>Come back tomorrow to keep your streak going</h2>
+                <p><strong>Streak:</strong> {score.streak}</p>
+
+              
+                {timeInSeconds !== undefined && (
+                    <p><strong>Time:</strong> {timeInSeconds}s</p>
+                )}
                 <pre className="share-preview">
                     {mazeRef.current?.map((row, i) =>
                         row.map((cell, j) => {
@@ -98,14 +108,15 @@ Play at: your-maze-game.com`;
                     ).join('')}
                 </pre>
 
-                <p><strong>Streak:</strong> {score.streak}</p>
-                <p><strong>Path Length:</strong> {score.length}</p>
-                {timeInSeconds !== undefined && (
-                    <p><strong>Time:</strong> {timeInSeconds}s</p>
-                )}
-                <button onClick={shareScore} style={{ marginTop: '1rem' }}>Share Your Score</button>
-            </div>
+                        
+                <button onClick={shareScore} style={{ marginTop: '1rem' }}>Share the Path</button>
 
+
+                <div className="new-puzzle">
+                    <p>Or try a new algorithmicly generated puzzle</p>
+                    <button onClick={onNewMaze}>Generate</button>
+                </div>
+            </div>
         </div>
     );
 }

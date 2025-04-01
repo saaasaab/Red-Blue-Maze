@@ -17,7 +17,7 @@
     display: flex;
     gap: 1rem;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
 
     .top-bar-controls{
       display: flex;
@@ -25,8 +25,11 @@
     }
 
     button {
-      font-size: 1.2rem;
+      font-size: 1.4rem;
       padding: 0.4rem 0.8rem;
+      display: flex;
+      gap: 5px;
+      justify-content: center;
     }
     .score{
        font-size: 1.4rem;

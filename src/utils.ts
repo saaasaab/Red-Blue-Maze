@@ -1,4 +1,4 @@
-type Cell = 'red' | 'blue' | null | 'block';
+type Cell = 'red' | 'blue' | null | 'block' | 'start-red' | 'start-blue'| 'end-red' | 'end-blue';
 type Grid = Cell[][];
 export type Coord = [number, number];
 
@@ -15,6 +15,7 @@ export function getTodayDate(): string {
 export function findSpecialCells(maze: (string | null)[][]): {
   start: Coord;
   end: Coord;
+  maze: (string | null)[][];
 } {
   let start: [number, number] = [0, 0];
   let end: [number, number] = [0, 0]
@@ -39,11 +40,10 @@ export function findSpecialCells(maze: (string | null)[][]): {
         end = [i, j];
         maze[i][j] = 'red'
       }
-
     }
   }
 
-  return { start, end };
+  return { maze: JSON.parse(JSON.stringify(maze)), start, end };
 }
 
 
@@ -71,58 +71,242 @@ export function getRandomStartEndCorners(rows: number, cols: number): { start: C
   };
 }
 
+function sealOuterWalls(
+  mazeDots:  Grid,
+  path: [number, number][]
+): Grid {
+  const rows = mazeDots.length;
+  const cols = mazeDots[0].length;
 
-export function generateMazeFromPath(rows: number, cols: number, path: Coord[]): Grid {
+  const isInPath = new Set(path.map(([r, c]) => `${r},${c}`));
+
+  // Check top and bottom rows
+  for (let c = 0; c < cols; c++) {
+    if (mazeDots[0][c] === null && !isInPath.has(`0,${c}`)) {
+      mazeDots[0][c] = 'block';
+    }
+    if (mazeDots[rows - 1][c] === null && !isInPath.has(`${rows - 1},${c}`)) {
+      mazeDots[rows - 1][c] = 'block';
+    }
+  }
+
+  // Check left and right columns
+  for (let r = 0; r < rows; r++) {
+    if (mazeDots[r][0] === null && !isInPath.has(`${r},0`)) {
+      mazeDots[r][0] = 'block';
+    }
+    if (mazeDots[r][cols - 1] === null && !isInPath.has(`${r},${cols - 1}`)) {
+      mazeDots[r][cols - 1] = 'block';
+    }
+  }
+
+  return JSON.parse(JSON.stringify(mazeDots));
+}
+
+
+export function generateMaze(rows: number, cols: number): { maze: Grid, path: Coord[], start: Coord, end: Coord } {
   const maze: Grid = Array.from({ length: rows }, () => Array(cols).fill(null));
 
+  let count = 0;
+  const { start, end } = getRandomStartEndCorners(rows, cols);
+  // const number = Math.random();
+  // const color = number < .5 ? 'red' : "blue";
+  // let lastColor = color;
+  maze[start[0]][start[1]] = 'red';
+  maze[end[0]][end[1]] = 'blue';
 
-  // const colors: Cell[] = ['red', 'blue'];
-  let lastColor = null
-  for (let i = 0; i < path.length; i++) {
+
+  const validPath = searchValidPathBFS(
+    start,
+    end,
+    maze
+  )
+
+  // let basePath = aStarPath(start, end, rows, cols);
+
+  const path: Coord[] = [...(validPath.path as Coord[])];
 
 
-    const [r, c] = path[i];
 
 
-    const number = Math.random();
 
-    if (i === 0) {
-      const color = number < .5 ? 'red' : "blue";
-      maze[r][c] = color;
-      lastColor = color;
+
+  let sameCount = 0;
+  let pathCount = 0;
+  let lastColor = maze[path[0][0]][path[0][1]]
+
+  while (path.length < 60 && count < 1000) {
+
+    count++;
+
+    if (count % 200 === 0) {
+      console.log(`count`, count)
     }
-    else if (i === path.length - 1) {
+
+    if (path.length === pathCount) {
+      sameCount++;
+    }
+
+    pathCount = path.length;
+
+    // CHANGE THIS NUMBER UP OR DOWN TO MAKE THE BLOCKS MORE OR LESS
+    if (sameCount > 60) {
+      sameCount = 0;
+
+      const blocks = getRandomBlocks(maze)
+      blocks.forEach(block => {
+        maze[block[0]][block[1]] = null;
+      })
+      // Randomly remove 10 blocks. 
+    }
+
+
+
+    const nr = getRandomInt(0, rows - 1);
+    const nc = getRandomInt(0, cols - 1);
+
+
+
+    if (
+      !path.some(([r, c]) => (Math.abs(r - nr) + Math.abs(c - nc)) <= 1) &&
+      (Math.abs(nr - start[0]) + Math.abs(nc - start[1]) > 2) &&
+      (Math.abs(nr - end[0]) + Math.abs(nc - end[1]) > 2)
+    ) {
+
+      const _maze = JSON.parse(JSON.stringify(maze));
+
+
+      const randomPathPointIndex = getRandomInt(1, path.length - 2);
+      const randomPathPoint = path[randomPathPointIndex];
+
+
 
       const color: 'red' | 'blue' = lastColor === 'red' ? 'blue' : 'red';
-      maze[r][c] = color;
-      lastColor = color
+
+
+
+      if (Math.random() < 0.1) {
+        _maze[randomPathPoint[0]][randomPathPoint[1]] = color;
+        lastColor = color;
+      }
+
+      else if (
+        _maze[randomPathPoint[0]][randomPathPoint[1]] !== 'blue' &&
+        _maze[randomPathPoint[0]][randomPathPoint[1]] !== 'red'
+      ) {
+
+
+        _maze[randomPathPoint[0]][randomPathPoint[1]] = 'block';
+      }
+
+
+      if (Math.random() < 0.25 && (_maze[randomPathPoint[0]][randomPathPoint[1]] === 'blue' ||
+        _maze[randomPathPoint[0]][randomPathPoint[1]] === 'red')) {
+        _maze[randomPathPoint[0]][randomPathPoint[1]] = 'block';
+
+      }
+
+      const isValidPath = searchValidPathBFS(
+        start,
+        end,
+        _maze
+      )
+
+
+
+      if (isValidPath.path.length) {
+        path.splice(0, path.length, ...isValidPath.path);
+        maze.splice(0, maze.length, ..._maze);
+
+
+      }
     }
 
-    else if (number < 0.3) {
-      const color: 'red' | 'blue' = lastColor === 'red' ? 'blue' : 'red';
-      maze[r][c] = color;
-      lastColor = color
-    }
-
-    else maze[r][c] = null
-    // Assign color every 2-3 steps, rest are left null for difficulty
   }
 
 
+  const __path = searchValidPathBFS(
+    start,
+    end,
+    maze
+  )
+
+  const __maze = sealOuterWalls(
+    maze,
+    path)
 
 
-  // Optionally add some blocks to non-path cells
+  const ___maze = markStartEndColors(
+    __maze,
+    start,
+    end)
+
+  console.log(`__maze`, __maze, __path.path.length)
+
+  return { maze: ___maze, path: __path.path, start, end }
+}
+
+
+
+function getRandomBlocks(mazeDots: (null | string)[][], count = 10): [number, number][] {
+  const rows = mazeDots.length;
+  const cols = mazeDots[0].length;
+
+  const candidates: [number, number][] = [];
+
+  // Step 1: Gather all empty (null) cells
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
-      const inPath = path.some(([pr, pc]) => pr === r && pc === c);
-      if (!inPath && Math.random() < 0.9) {
-        maze[r][c] = 'block';
+      if (mazeDots[r][c] === 'block') {
+        candidates.push([r, c]);
       }
     }
   }
 
-  return maze;
+  // Step 2: Shuffle candidates
+  for (let i = candidates.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
+  }
+
+
+  const randomBlocks = []
+  // Step 3: Add blocks to the first `count` candidates
+  for (let i = 0; i < Math.min(count, candidates.length); i++) {
+    randomBlocks.push(candidates[i])
+  }
+
+  return randomBlocks
 }
+
+
+
+function markStartEndColors(
+  mazeDots: Grid,
+  start: Coord,
+  end: Coord
+): Grid {
+  const [sr, sc] = start;
+  const [er, ec] = end;
+
+  const startVal = mazeDots[sr][sc];
+  const endVal = mazeDots[er][ec];
+
+  if (startVal === 'red') {
+    mazeDots[sr][sc] = 'start-red';
+  } else if (startVal === 'blue') {
+    mazeDots[sr][sc] = 'start-blue';
+  }
+
+  if (endVal === 'red') {
+    mazeDots[er][ec] = 'end-red';
+  } else if (endVal === 'blue') {
+    mazeDots[er][ec] = 'end-blue';
+  }
+
+  return JSON.parse(JSON.stringify(mazeDots));
+}
+
 
 
 export function validateMaze(maze: Grid, path: Coord[]): MazeValidationResult {
@@ -168,12 +352,9 @@ function isInsideGrid(grid: Grid, r: number, c: number): boolean {
   return r >= 0 && r < grid.length && c >= 0 && c < grid[0].length;
 }
 
-
 function heuristic(a: Coord, b: Coord): number {
   return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]);
 }
-
-
 
 export function aStarPath(start: Coord, end: Coord, rows: number, cols: number): Coord[] | null {
   // Create the beginning to end in the shortest distance wiht A*.
@@ -301,23 +482,6 @@ export function isInvalid(path: Coord[], mazeDots: (string | null)[][]) {
 }
 
 
-
-
-function constructPath(currentStr: string, start: Coord, cameFrom: Map<string, string>) {
-  let basePath: Coord[] = [];
-  let current = currentStr;
-  while (current !== start.toString()) {
-    const [ri, ci] = current.split(',').map(Number) as Coord;
-    basePath.unshift([ri, ci]);
-    current = cameFrom.get(current)!;
-  }
-  basePath.unshift(start);
-
-  return basePath
-}
-
-
-
 function getLastPassedColor(path: Coord[], mazeDots: (string | null)[][]): 'red' | 'blue' {
   for (let i = path.length - 1; i >= 0; i--) {
     const [r, c] = path[i];
@@ -410,69 +574,4 @@ export function removeUTurns(path: Coord[]): [Coord[], boolean] {
     }
   }
   return [cleaned, hasUTurn];
-
-}
-
-
-export function generateRandomPath(rows: number, cols: number, start: Coord, end: Coord): Coord[] {
-
-  let basePath = aStarPath(start, end, rows, cols);
-
-  const path: Coord[] = [...(basePath as Coord[])];
-
-
-  // Reroute 3–4 internal points
-  const rerouteCount = 4//getRandomInt(2, 1)
-
-  for (let i = 0; i < rerouteCount; i++) {
-
-
-    const index = getRandomInt(2, path.length - 2);
-
-    let newPoint: Coord | null = null;
-    let attempts = 0;
-
-
-    while (attempts < 10 && !newPoint) {
-      const nr = getRandomInt(1, rows - 2);
-      const nc = getRandomInt(1, cols - 2);
-
-      if (
-        !path.some(([r, c]) => (Math.abs(r - nr) + Math.abs(c - nc)) <= 1) &&
-        (Math.abs(nr - start[0]) + Math.abs(nc - start[1]) > 2) &&
-        (Math.abs(nr - end[0]) + Math.abs(nc - end[1]) > 2)
-      ) {
-        newPoint = [nr, nc];
-      }
-      attempts++;
-    }
-
-
-    if (!newPoint) continue
-
-    const before = path[index - 1];
-    const after = path[index + 1];
-
-    const segment1 = aStarPath(before, newPoint, rows, cols);
-    const segment2 = aStarPath(newPoint, after, rows, cols);
-
-    if (segment1 && segment2) {
-      const combined = [...segment1.slice(1), ...segment2.slice(1)];
-      path.splice(index, 1, ...combined);
-    }
-  }
-
-
-
-
-  let uTurnsExist = true;
-  let _path = [...path];
-
-  while (uTurnsExist) {
-    const [cleaned, hasUTurn] = removeUTurns(_path);
-    _path = [...cleaned];
-    uTurnsExist = hasUTurn
-  }
-
-  return _path;
 }
