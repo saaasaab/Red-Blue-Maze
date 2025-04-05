@@ -5,21 +5,21 @@ interface ScoreData {
     streak: number;
     length: number;
     timeInSeconds?: number;
-    
-    
+
+
 }
 
 const LOCAL_STORAGE_KEY = 'maze-score';
 
-export default function ScorePage({ pathRef, mazeRef, timeInSeconds,onClose,onNewMaze }: {
+export default function ScorePage({ pathRef, mazeRef, timeInSeconds, onClose, onNewMaze }: {
     pathRef: React.RefObject<[number, number][]>;
     mazeRef: React.RefObject<(string | null | 'block')[][]>;
     timeInSeconds: number;
     onClose: () => void;
-    onNewMaze: ()=> void;
+    onNewMaze: () => void;
 }) {
 
-    const [score, setScore] = useState<ScoreData>({ streak: 0, length: 0, timeInSeconds: undefined }); 
+    const [score, setScore] = useState<ScoreData>({ streak: 0, length: 0, timeInSeconds: undefined });
     useEffect(() => {
         const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
 
@@ -87,12 +87,12 @@ Play at: your-maze-game.com`;
 
 
             <div className="score-card">
-            <button className="close-button" onClick={onClose}>✖</button>
+                <button className="close-button" onClick={onClose} onTouchStart={onClose}>✖</button>
                 <h2>🎉 CONGRATS! </h2>
-                <h2>Come back tomorrow to keep your streak going</h2>
+                <h2>Keep your streak going! Come back tomorrow.</h2>
                 <p><strong>Streak:</strong> {score.streak}</p>
 
-              
+
                 {timeInSeconds !== undefined && (
                     <p><strong>Time:</strong> {timeInSeconds}s</p>
                 )}
@@ -108,13 +108,13 @@ Play at: your-maze-game.com`;
                     ).join('')}
                 </pre>
 
-                        
-                <button onClick={shareScore} style={{ marginTop: '1rem' }}>Share the Path</button>
+
+
 
 
                 <div className="new-puzzle">
-                    <p>Or try a new algorithmicly generated puzzle</p>
-                    <button onClick={onNewMaze}>Generate</button>
+                    <button onClick={shareScore} onTouchStart={shareScore}>Share the Path</button>
+                    <button onClick={onNewMaze} onTouchStart={onNewMaze}>Generate New Puzzle</button>
                 </div>
             </div>
         </div>
