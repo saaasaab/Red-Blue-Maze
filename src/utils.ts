@@ -356,8 +356,13 @@ function heuristic(a: Coord, b: Coord): number {
   return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]);
 }
 
-export function aStarPath(start: Coord, end: Coord, rows: number, cols: number): Coord[] | null {
+export function aStarPathForConnectingClicks(start: Coord, end: Coord, maze:(string | null | 'block')[][]): Coord[] | null {
   // Create the beginning to end in the shortest distance wiht A*.
+  const rows = maze.length;
+  const cols = maze[0].length;
+
+  maze[start[0]][start[1]] = null;
+  maze[end[0]][end[1]] = null;
 
   const openSet: Set<string> = new Set([start.toString()]);
   const cameFrom: Map<string, string> = new Map();
@@ -372,6 +377,7 @@ export function aStarPath(start: Coord, end: Coord, rows: number, cols: number):
   ];
 
   let basePath: Coord[] | null = null;
+
 
   while (openSet.size > 0) {
     const currentStr = Array.from(openSet).reduce((a, b) => (
@@ -400,9 +406,10 @@ export function aStarPath(start: Coord, end: Coord, rows: number, cols: number):
       const nr = r + dr;
       const nc = c + dc;
       const neighborStr = `${nr},${nc}`;
-      if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
+  
 
 
+      if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && maze[nr][nc] === null) {
         const tentativeG = (gScore.get(currentStr) || 0) + 1;
         if (tentativeG < (gScore.get(neighborStr) || Infinity)) {
 
@@ -471,6 +478,8 @@ function pathCrossesBlockedTiles(path: Coord[], mazeDots: (string | null)[][]): 
 
 
 export function isInvalid(path: Coord[], mazeDots: (string | null)[][]) {
+
+  
   const hasConsecutiveColors = hasAdjacentSameColor(path, mazeDots);
 
   const isUTurn = hasUTurn(path, mazeDots);

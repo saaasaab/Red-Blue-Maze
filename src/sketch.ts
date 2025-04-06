@@ -1,5 +1,5 @@
 import p5 from "p5";
-import { Coord, isInvalid } from "./utils";
+import { aStarPathForConnectingClicks, Coord, isInvalid } from "./utils";
 
 interface ISketch {
   canvasRef: React.RefObject<HTMLDivElement | null>;
@@ -37,6 +37,8 @@ export default function sketch(params: ISketch) {
   let path = pathRef.current;
   let cellSize = getFittingCellSize(mazeDots.length, mazeDots[0].length)
   let isDragging = false;
+
+  let isInvalidPath = false;
   // let isInvalidPath = false;
 
 
@@ -93,7 +95,8 @@ export default function sketch(params: ISketch) {
       if (!isDragging || !last) return;
       let [i, j] = getCell(p.mouseX, p.mouseY);
       if (!isValid(i, j)) return;
-      if (isInvalid(path, mazeDots)) return;
+      isInvalidPath = isInvalid(path, mazeDots)
+      if (isInvalidPath) return;
 
       if ((last[0] !== i || last[1] !== j) && isAdjacent(i, j, last)) {
         path.push([i, j]);
@@ -108,13 +111,28 @@ export default function sketch(params: ISketch) {
     p.mousePressed = () => {
       let [i, j] = getCell(p.mouseX, p.mouseY);
       if (!isValid(i, j)) return;
-      if (i === START[0] && j === START[1] && path.length === 0) {
-        path = [[i, j]];
-        // lastPassedColor = isColor(i, j) ? mazeDots[i][j] : null;
-      } else if (path.length > 0 && isAdjacent(i, j, path[path.length - 1])) {
-        path.push([i, j]);
+      if (path.length === 0) {
 
-        pathRef.current = path
+        pathRef.current.splice(0, path.length, [START[0], START[1]])
+
+        // path = [];
+        // lastPassedColor = isColor(i, j) ? mazeDots[i][j] : null;
+      } 
+      
+      if (path.length > 0) {
+
+        const clickedCoord: Coord = [i, j];
+
+        tryConnectToClickedCell(clickedCoord, path, mazeDots);
+
+
+
+        if (isAdjacent(i, j, path[path.length - 1])) {
+          pathRef.current.push([i, j]);
+
+           
+          console.log(`pathRef.current`, pathRef.current)
+        }
         // if (isColor(i, j)) lastPassedColor = mazeDots[i][j];
       }
       isDragging = true;
@@ -139,6 +157,41 @@ export default function sketch(params: ISketch) {
       p.mouseReleased();
       return false;
     }
+
+
+    function tryConnectToClickedCell(
+      clickCoord: Coord,
+      path: Coord[],
+      mazeDots: (string | null)[][],
+    ): void {
+
+      const lastCoord = path[path.length - 1];
+
+      const _maze: (string | null)[][] = JSON.parse(JSON.stringify(mazeDots))
+      const __maze = _maze.map(
+        (row: (string | null)[]) =>
+        row.map(cell => cell !== null ? "block" : cell)
+      );
+
+
+      const connectionPath = aStarPathForConnectingClicks(lastCoord, clickCoord,__maze);
+        
+      if (!connectionPath || connectionPath.length <= 1) return;
+
+      const fullPath = [...path, ...connectionPath.slice(1)];
+
+
+      isInvalidPath = isInvalid(fullPath, mazeDots)
+      if (!isInvalidPath) {
+
+        pathRef.current.push(...connectionPath.slice(1))
+
+        // Replace original path in-place
+        // path.splice(0, path.length, ...fullPath);
+      }
+    }
+
+
 
 
     // function drawVisited() {
@@ -317,7 +370,7 @@ export default function sketch(params: ISketch) {
 
         p.stroke(count > 1 ? '#333' : 'green')
 
-        if (isInvalid(path, mazeDots)) {
+        if (isInvalidPath) {
           p.stroke('orange')
         }
 
