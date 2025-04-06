@@ -131,7 +131,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [null, null, "blue", null, null, null, null, null],
         [null, "block", null, "block", "block", null, "block", null],
         ["block", null, null, null, "block", "blue", "red", null],
-        ["start-red", null, null, null, "block", null, "blue", "start-blue"]
+        ["end-red", null, null, null, "block", null, "blue", "start-blue"]
     ],
     "2025-04-07": [
         ["red", null, null, null, null, "block", null, "start-blue"],
@@ -144,7 +144,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         ["blue", "block", null, null, "red", "red", null, null],
         [null, null, "block", "red", null, "red", "blue", null],
         ["red", "blue", null, null, "block", null, "blue", null],
-        ["start-red", "blue", null, "red", "red", null, null, null]
+        ["end-red", "blue", null, "red", "red", null, null, null]
     ],
 
     "2025-04-08": [
@@ -184,10 +184,10 @@ export const puzzles: Record<string, (string | null)[][]> =
         [null, "blue", "block", null, "block", null, "red", null],
         ["red", "red", "red", "blue", null, "red", null, null],
         ["block", null, "block", null, "block", null, null, null],
-        ["start-blue", null, null, "blue", null, null, "block", "start-red"]
+        ["end-blue", null, null, "blue", null, null, "block", "start-red"]
     ],
     "2025-04-11": [
-        ["start-red", null, null, "block", null, null, null, "start-blue"],
+        ["end-red", null, null, "block", null, null, null, "start-blue"],
         [null, "block", null, null, "block", "blue", null, null],
         ["block", null, "block", null, "block", null, "block", null],
         [null, null, null, null, null, "red", null, "red"],
@@ -211,10 +211,10 @@ export const puzzles: Record<string, (string | null)[][]> =
         ["blue", "block", null, "blue", null, null, null, "blue"],
         ["red", null, "blue", null, "red", null, "blue", null],
         ["block", "red", "red", "blue", "red", null, null, null],
-        ["start-blue", null, "red", "block", null, "red", null, null]
+        ["end-blue", null, "red", "block", null, "red", null, null]
     ],
     "2025-04-13": [
-        ["start-blue", "red", "blue", "red", null, null, "block", "start-red"],
+        ["end-blue", "red", "blue", "red", null, null, "block", "start-red"],
         [null, "red", null, "blue", "blue", null, "block", "blue"],
         ["red", "blue", "block", null, "blue", null, "blue", null],
         [null, "red", null, "block", null, "blue", "blue", null],
@@ -227,7 +227,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [null, null, null, null, null, null, null, null]
     ],
     "2025-04-14": [
-        ["start-blue", "block", "block", null, null, null, null, "start-red"],
+        ["start-blue", "block", "block", null, null, null, null, "end-red"],
         ["red", null, "red", null, "block", "red", "red", null],
         [null, "block", "blue", null, "red", "block", null, "red"],
         [null, "blue", null, "block", "block", "blue", "blue", null],
@@ -240,7 +240,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [null, null, null, null, null, null, null, null]
     ],
     "2025-04-15": [
-        ["start-red", "block", null, null, null, null, "block", "start-blue"],
+        ["end-red", "block", null, null, null, null, "block", "start-blue"],
         [null, null, "block", null, null, "block", "blue", null],
         ["block", null, "block", null, "blue", "red", "blue", null],
         [null, null, null, "red", "block", null, null, null],
@@ -263,10 +263,10 @@ export const puzzles: Record<string, (string | null)[][]> =
         [null, null, "block", null, null, "block", null, null],
         [null, "block", null, null, "block", null, "block", null],
         [null, null, null, "block", "blue", null, "red", null],
-        ["start-blue", null, null, "block", null, null, null, null]
+        ["end-blue", null, null, "block", null, null, null, null]
     ],
     "2025-04-17":[
-        ["start-red", null, null, "block", null, "red", null, "blue"],
+        ["end-red", null, null, "block", null, "red", null, "blue"],
         [null, "block", "block", "blue", null, "block", null, null],
         [null, null, "block", "blue", null, "blue", null, null],
         [null, null, null, "red", null, null, "red", "red"],
@@ -289,10 +289,10 @@ export const puzzles: Record<string, (string | null)[][]> =
         [null, "block", null, null, "block", "block", "block", null],
         [null, "block", "blue", null, "red", "block", null, null],
         [null, null, "blue", "block", "blue", null, null, null],
-        ["start-red", "block", null, "block", null, null, null, null]
+        ["end-red", "block", null, "block", null, null, null, null]
     ],
     "2025-04-19": [
-        [null, "block", null, null, null, null, null, "start-red"],
+        [null, "block", null, null, null, null, null, "end-red"],
         [null, "block", null, "block", null, "block", null, "block"],
         [null, null, null, "block", null, null, "block", null],
         [null, "red", null, "block", null, "block", "blue", null],
@@ -317,10 +317,10 @@ export const puzzles: Record<string, (string | null)[][]> =
         [null, null, "red", "block", "block", null, "red", "blue"],
         ["block", null, null, null, null, "block", null, null],
         [null, null, null, null, null, "block", "block", null],
-        ["start-red", null, null, "block", null, null, null, null]
+        ["end-red", null, null, "block", null, null, null, null]
     ],
     "2025-04-21":[
-        ["start-red", "blue", null, "block", null, null, null, null],
+        ["end-red", "blue", null, "block", null, null, null, null],
         ["block", null, "red", null, null, null, null, null],
         [null, null, null, null, null, null, null, null],
         ["block", null, null, null, "block", "block", "block", "block"],
@@ -333,451 +333,59 @@ export const puzzles: Record<string, (string | null)[][]> =
         ["block", null, "block", null, null, "block", "block", "start-blue"]
     ],
     "2025-04-22":[
-        [
-            "start-blue",
-            "blue",
-            null,
-            null,
-            null,
-            null,
-            "red",
-            null
-        ],
-        [
-            null,
-            "blue",
-            "block",
-            null,
-            "block",
-            null,
-            null,
-            null
-        ],
-        [
-            null,
-            "block",
-            "red",
-            null,
-            "block",
-            null,
-            null,
-            null
-        ],
-        [
-            "red",
-            null,
-            "block",
-            null,
-            null,
-            "block",
-            null,
-            null
-        ],
-        [
-            "block",
-            null,
-            null,
-            null,
-            "block",
-            "red",
-            "blue",
-            null
-        ],
-        [
-            null,
-            "red",
-            null,
-            null,
-            null,
-            "red",
-            null,
-            null
-        ],
-        [
-            null,
-            "block",
-            "blue",
-            "red",
-            null,
-            "block",
-            "blue",
-            null
-        ],
-        [
-            null,
-            null,
-            "blue",
-            "block",
-            "block",
-            null,
-            null,
-            "block"
-        ],
-        [
-            null,
-            "block",
-            "block",
-            null,
-            "block",
-            "block",
-            null,
-            "blue"
-        ],
-        [
-            null,
-            null,
-            "block",
-            null,
-            null,
-            "red",
-            "blue",
-            null
-        ],
-        [
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            "start-red"
+        ["start-blue","blue",null,null,null,null,"red",null],
+        [null,"blue","block",null,"block",null,null,null],
+        [null,"block","red",null,"block",null,null,null],
+        ["red",null,"block",null,null,"block",null,null],
+        ["block",null,null,null,"block","red","blue",null],
+        [null,"red",null,null,null,"red",null,null],
+        [null,"block","blue","red",null,"block","blue",null],
+        [null,null,"blue","block","block",null,null,"block"],
+        [null,"block","block",null,"block","block",null,"blue"],
+        [null,null,"block",null,null,"red","blue",null],
+        [null,null,null,null,null,null,null,"end-red"
         ]
     ],
     "2025-4-25":[
-        [
-            "block",
-            "block",
-            "block",
-            "blue",
-            null,
-            null,
-            null,
-            "end-blue"
-        ],
-        [
-            "block",
-            null,
-            null,
-            null,
-            null,
-            "blue",
-            null,
-            "block"
-        ],
-        [
-            null,
-            null,
-            "block",
-            "blue",
-            "block",
-            null,
-            "red",
-            null
-        ],
-        [
-            null,
-            "blue",
-            null,
-            null,
-            "block",
-            "block",
-            null,
-            "blue"
-        ],
-        [
-            "blue",
-            null,
-            "block",
-            null,
-            null,
-            null,
-            "block",
-            "block"
-        ],
-        [
-            null,
-            "block",
-            "block",
-            "block",
-            null,
-            null,
-            "block",
-            "block"
-        ],
-        [
-            null,
-            null,
-            "block",
-            null,
-            "block",
-            null,
-            null,
-            "block"
-        ],
-        [
-            "block",
-            null,
-            null,
-            "block",
-            "block",
-            "block",
-            null,
-            "block"
-        ],
-        [
-            "block",
-            null,
-            null,
-            null,
-            "red",
-            null,
-            "block",
-            "block"
-        ],
-        [
-            "block",
-            null,
-            null,
-            "blue",
-            null,
-            "block",
-            null,
-            "block"
-        ],
-        [
-            "block",
-            "block",
-            "block",
-            "block",
-            null,
-            null,
-            "blue",
-            "start-red"
+        ["block","block","block","blue",null,null,null,"end-blue"],
+        ["block",null,null,null,null,"blue",null,"block"],
+        [null,null,"block","blue","block",null,"red",null],
+        [null,"blue",null,null,"block","block",null,"blue"],
+        ["blue",null,"block",null,null,null,"block","block"],
+        [null,"block","block","block",null,null,"block","block"],
+        [null,null,"block",null,"block",null,null,"block"],
+        ["block",null,null,"block","block","block",null,"block"],
+        ["block",null,null,null,"red",null,"block","block"],
+        ["block",null,null,"blue",null,"block",null,"block"],
+        ["block","block","block","block",null,null,"blue","start-red"
         ]
     ],
     "2025-4-26":[
-        [
-            null,
-            null,
-            null,
-            "block",
-            null,
-            null,
-            "red",
-            "end-blue"
-        ],
-        [
-            "blue",
-            null,
-            null,
-            null,
-            null,
-            "block",
-            null,
-            "block"
-        ],
-        [
-            "blue",
-            "block",
-            null,
-            "block",
-            null,
-            null,
-            "block",
-            "block"
-        ],
-        [
-            "block",
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            "block"
-        ],
-        [
-            "red",
-            "block",
-            null,
-            null,
-            null,
-            "red",
-            null,
-            "block"
-        ],
-        [
-            "block",
-            "red",
-            null,
-            "block",
-            "blue",
-            "block",
-            null,
-            "block"
-        ],
-        [
-            "block",
-            "block",
-            "red",
-            "block",
-            "block",
-            null,
-            "block",
-            "block"
-        ],
-        [
-            "block",
-            "block",
-            null,
-            "block",
-            null,
-            "block",
-            "blue",
-            null
-        ],
-        [
-            "block",
-            "blue",
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-        ],
-        [
-            "block",
-            "block",
-            "red",
-            "block",
-            null,
-            "block",
-            null,
-            "block"
-        ],
-        [
-            "start-red",
-            null,
-            null,
-            null,
-            null,
-            "block",
-            "block",
-            "block"
+        [null,null,null,"block",null,null,"red","end-blue"],
+        ["blue",null,null,null,null,"block",null,"block"],
+        ["blue","block",null,"block",null,null,"block","block"],
+        ["block",null,null,null,null,null,null,"block"],
+        ["red","block",null,null,null,"red",null,"block"],
+        ["block","red",null,"block","blue","block",null,"block"],
+        ["block","block","red","block","block",null,"block","block"],
+        ["block","block",null,"block",null,"block","blue",null],
+        ["block","blue",null,null,null,null,null,null],
+        ["block","block","red","block",null,"block",null,"block"],
+        ["start-red",null,null,null,null,"block","block","block"
         ]
     ],
     "2025-4-27":[
-        [
-            "start-red",
-            "block",
-            "blue",
-            "block",
-            "block",
-            "block",
-            "block",
-            "end-blue"
-        ],
-        [
-            null,
-            null,
-            null,
-            "block",
-            "red",
-            null,
-            null,
-            null
-        ],
-        [
-            "blue",
-            "block",
-            "blue",
-            "block",
-            null,
-            "block",
-            null,
-            null
-        ],
-        [
-            null,
-            null,
-            null,
-            "block",
-            null,
-            null,
-            "block",
-            "red"
-        ],
-        [
-            null,
-            null,
-            "red",
-            null,
-            "red",
-            "red",
-            null,
-            null
-        ],
-        [
-            "block",
-            "block",
-            null,
-            null,
-            null,
-            null,
-            null,
-            "block"
-        ],
-        [
-            "blue",
-            null,
-            null,
-            "block",
-            "red",
-            null,
-            "red",
-            "block"
-        ],
-        [
-            "red",
-            "block",
-            "block",
-            "block",
-            null,
-            null,
-            null,
-            "blue"
-        ],
-        [
-            "block",
-            "red",
-            "block",
-            "block",
-            "blue",
-            "red",
-            "block",
-            "block"
-        ],
-        [
-            "block",
-            null,
-            "red",
-            null,
-            null,
-            null,
-            null,
-            "block"
-        ],
-        [
-            "block",
-            "block",
-            "block",
-            "block",
-            "blue",
-            "block",
-            "block",
-            "block"
+        ["start-red","block","blue","block","block","block","block","end-blue"],
+        [null,null,null,"block","red",null,null,null],
+        ["blue","block","blue","block",null,"block",null,null],
+        [null,null,null,"block",null,null,"block","red"],
+        [null,null,"red",null,"red","red",null,null],
+        ["block","block",null,null,null,null,null,"block"],
+        ["blue",null,null,"block","red",null,"red","block"],
+        ["red","block","block","block",null,null,null,"blue"],
+        ["block","red","block","block","blue","red","block","block"],
+        ["block",null,"red",null,null,null,null,"block"],
+        ["block","block","block","block","blue","block","block","block"
         ]
     ]
     // "2025-4-28":
