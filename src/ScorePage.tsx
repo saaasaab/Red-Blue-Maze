@@ -18,9 +18,7 @@ export default function ScorePage({ pathRef, mazeRef, timeInSeconds, onClose, on
     onClose: () => void;
     onNewMaze: () => void;
 }) {
-
-
-    console.log(`mazeRef.current`, mazeRef.current)
+    
     const [score, setScore] = useState<ScoreData>({ streak: 0, length: 0, timeInSeconds: undefined });
     useEffect(() => {
         const saved = localStorage.getItem(LOCAL_STORAGE_KEY);

@@ -9,7 +9,11 @@ interface MazeValidationResult {
 
 
 export function getTodayDate(): string {
-  return new Date().toISOString().split('T')[0];
+  const localeDate = new Date().toLocaleDateString();
+  const parsedDate = new Date(localeDate);
+  const normalized = parsedDate.toISOString().split('T')[0];
+  
+  return normalized;
 }
 
 export function findSpecialCells(maze: (string | null)[][]): {
