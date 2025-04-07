@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './ScorePage.scss';
+import OverlayCard from './OverlayCard';
 
 interface ScoreData {
     streak: number;
@@ -18,7 +19,7 @@ export default function ScorePage({ pathRef, mazeRef, timeInSeconds, onClose, on
     onClose: () => void;
     onNewMaze: () => void;
 }) {
-    
+
     const [score, setScore] = useState<ScoreData>({ streak: 0, length: 0, timeInSeconds: undefined });
     useEffect(() => {
         const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -83,40 +84,40 @@ Play at: your-maze-game.com`;
     };
 
     return (
-        <div className="score-overlay">
+
+        <OverlayCard onClose={onClose}>
+                <div className="score-card">
+                   
+                    <h2>🎉 CONGRATS! </h2>
+                    <h2>Keep your streak going! Come back tomorrow.</h2>
+                    <p><strong>Streak:</strong> {score.streak}</p>
 
 
-            <div className="score-card">
-                <button className="close-button" onClick={onClose} onTouchStart={onClose}>✖</button>
-                <h2>🎉 CONGRATS! </h2>
-                <h2>Keep your streak going! Come back tomorrow.</h2>
-                <p><strong>Streak:</strong> {score.streak}</p>
-
-
-                {timeInSeconds !== undefined && (
-                    <p><strong>Time:</strong> {timeInSeconds}s</p>
-                )}
-                <pre className="share-preview">
-                    {mazeRef.current?.map((row, i) =>
-                        row.map((cell, j) => {
-                            const inPath = pathRef.current?.some(([pi, pj]) => pi === i && pj === j);
-                            if (!inPath) return '⬛';
-                            if (cell === 'red') return '🟥';
-                            if (cell === 'blue') return '🟦';
-                            return '⬜';
-                        }).join('') + '\n'
-                    ).join('')}
-                </pre>
-
-
+                    {timeInSeconds !== undefined && (
+                        <p><strong>Time:</strong> {timeInSeconds}s</p>
+                    )}
+                    <pre className="share-preview">
+                        {mazeRef.current?.map((row, i) =>
+                            row.map((cell, j) => {
+                                const inPath = pathRef.current?.some(([pi, pj]) => pi === i && pj === j);
+                                if (!inPath) return '⬛';
+                                if (cell === 'red') return '🟥';
+                                if (cell === 'blue') return '🟦';
+                                return '⬜';
+                            }).join('') + '\n'
+                        ).join('')}
+                    </pre>
 
 
 
-                <div className="new-puzzle">
-                    <button onClick={shareScore} onTouchStart={shareScore}>Share the Path</button>
-                    <button onClick={onNewMaze} onTouchStart={onNewMaze}>Generate New Puzzle</button>
+
+
+                    <div className="new-puzzle">
+                        <button onClick={shareScore} onTouchStart={shareScore}>Share the Path</button>
+                        <button onClick={onNewMaze} onTouchStart={onNewMaze}>Generate New Puzzle</button>
+                    </div>
                 </div>
-            </div>
-        </div>
+        </OverlayCard >
+
     );
 }

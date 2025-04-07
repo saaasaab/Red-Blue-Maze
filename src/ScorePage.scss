@@ -1,55 +1,27 @@
-.score-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
+.overlay-container h2 {
+  margin: 0;
+}
+p {
+  font-size: 2.2rem;
+  margin: 0;
+}
+
+.new-puzzle {
   display: flex;
+  gap: 10px;
+  width: 100%;
   justify-content: center;
-  align-items: center;
-  z-index: 1000;
-
-  .score-card {
-    position: relative;
-    padding: 2rem;
-    max-width: 400px;
-    margin: 0 auto;
-    text-align: center;
-    background: white;
-    border-radius: 8px;
-    color: rgb(48, 47, 47);
-    h2 {
-      margin: 0;
-    }
-    p {
-      font-size: 2.2rem;
-      margin: 0;
-    }
-
-    .new-puzzle {
-      display: flex;
-      gap: 10px;
-      width: 100%;
-      justify-content: center;
-      p {
-        font-size: 1.2rem;
-        margin: 0;
-      }
-    }
-  }
-  .close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-  }
-  .share-preview {
-    font-family: monospace;
+  p {
     font-size: 1.2rem;
-    line-height: 1;
-    letter-spacing: 0;
-    white-space: pre;
-    margin-bottom: 1rem;
+    margin: 0;
   }
+}
+
+.share-preview {
+  font-family: monospace;
+  font-size: 1.2rem;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: pre;
+  margin-bottom: 1rem;
 }

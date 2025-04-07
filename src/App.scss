@@ -17,8 +17,12 @@
     display: flex;
     gap: 1rem;
     align-items: center;
-    justify-content: flex-end;
-
+    justify-content: space-between;
+    .top-bar-controls-left{
+      display: flex;
+      gap: 1rem;
+    }
+    
     .top-bar-controls{
       display: flex;
       gap: 1rem;

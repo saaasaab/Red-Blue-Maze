@@ -9,6 +9,7 @@ interface ISketch {
   start: Coord;
   end: Coord;
   visited: Map<string, Set<string>> | null;
+  overlayOpenRef: React.RefObject<boolean>
 
 
 }
@@ -25,7 +26,7 @@ function getFittingCellSize(rows: number, cols: number): number {
 
 export default function sketch(params: ISketch) {
 
-  const { canvasRef, pathRef, onWin, mazeDotsRef, start: START, end: END } = params;  // ,visited 
+  const { canvasRef, pathRef, onWin, mazeDotsRef, start: START, end: END,overlayOpenRef } = params;  // ,visited 
   const mazeDots = mazeDotsRef.current;
 
   let hoverCell: [number, number] | null = null;
@@ -89,9 +90,8 @@ export default function sketch(params: ISketch) {
     }
 
     p.mouseDragged = () => {
+      if(overlayOpenRef.current) return;
       let last = path[path.length - 1];
-
-
       if (!isDragging || !last) return;
       let [i, j] = getCell(p.mouseX, p.mouseY);
       if (!isValid(i, j)) return;
@@ -109,14 +109,15 @@ export default function sketch(params: ISketch) {
     // P5.js sketch replicating the maze path game
 
     p.mousePressed = () => {
+      
+      if(overlayOpenRef.current) return;
+
       let [i, j] = getCell(p.mouseX, p.mouseY);
       if (!isValid(i, j)) return;
       if (path.length === 0) {
 
         pathRef.current.splice(0, path.length, [START[0], START[1]])
 
-        // path = [];
-        // lastPassedColor = isColor(i, j) ? mazeDots[i][j] : null;
       } 
       
       if (path.length > 0) {
@@ -129,11 +130,7 @@ export default function sketch(params: ISketch) {
 
         if (isAdjacent(i, j, path[path.length - 1])) {
           pathRef.current.push([i, j]);
-
-           
-          console.log(`pathRef.current`, pathRef.current)
         }
-        // if (isColor(i, j)) lastPassedColor = mazeDots[i][j];
       }
       isDragging = true;
     }
@@ -143,17 +140,21 @@ export default function sketch(params: ISketch) {
     }
 
     p.touchStarted = () => {
+
+      if(overlayOpenRef.current) return true
       p.mousePressed();
       return false;
     }
 
 
     p.touchMoved = () => {
+      if(overlayOpenRef.current) return true
       p.mouseDragged();
       return false;
     }
 
     p.touchEnded = () => {
+      if(overlayOpenRef.current) return true
       p.mouseReleased();
       return false;
     }
