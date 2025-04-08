@@ -161,7 +161,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         ["start-blue", null, "blue", null, null, null, "blue", "start-red"]
     ],
     "2025-04-09": [
-        [null, null, null, null, "blue", "blue", "block", "start-blue"],
+        [null, null, null, null, "blue", "blue", "block", "end-blue"],
         [null, null, "red", null, "red", "block", null, "red"],
         [null, "red", "blue", "block", "block", "red", "block", "blue"],
         [null, null, "blue", null, "blue", null, "red", "red"],
