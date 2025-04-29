@@ -1,9 +1,11 @@
 .overlay-container h2 {
   margin: 0;
+  color: var(--text-primary);
 }
 p {
   font-size: 2.2rem;
   margin: 0;
+  color: var(--text-primary);
 }
 
 .new-puzzle {
@@ -14,6 +16,7 @@ p {
   p {
     font-size: 1.2rem;
     margin: 0;
+    color: var(--text-secondary);
   }
 }
 
@@ -24,4 +27,9 @@ p {
   letter-spacing: 0;
   white-space: pre;
   margin-bottom: 1rem;
+  color: var(--text-primary);
+  background-color: var(--bg-secondary);
+  padding: 1rem;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
 }

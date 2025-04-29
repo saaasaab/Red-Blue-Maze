@@ -1,8 +1,30 @@
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f3f4f6;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --accent-primary: #3b82f6;
+  --accent-secondary: #60a5fa;
+  --border-color: #e5e7eb;
+  --button-primary: #3b82f6;
+  --button-secondary: #60a5fa;
+  --button-primary-text: #ffffff;
+
+  --bg-primary-rgb: 255, 255, 255;
+  --bg-secondary-rgb: 243, 244, 246;
+  --text-primary-rgb: 17, 24, 39;
+  --text-secondary-rgb: 75, 85, 99;
+  --accent-primary-rgb: 59, 130, 246;
+  --accent-secondary-rgb: 96, 165, 250;
+  --border-color-rgb: 229, 231, 235;
+}
+
 #root {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
+  background-color: var(--bg-primary);
 }
 
 .maze-container {
@@ -18,6 +40,8 @@
     gap: 1rem;
     align-items: center;
     justify-content: space-between;
+    background-color: var(--bg-secondary);
+    
     .top-bar-controls-left{
       display: flex;
       gap: 1rem;
@@ -34,17 +58,27 @@
       display: flex;
       gap: 5px;
       justify-content: center;
+      background-color: var(--button-primary);
+      color: var(--button-primary-text);
+      border: 1px solid var(--border-color);
+      
+      &:hover {
+        background-color: var(--button-secondary);
+      }
     }
     .score{
        font-size: 1.4rem;
+       color: var(--text-primary);
     }
   }
 }
+
 .maze {
   display: flex;
   flex-direction: column;
   user-select: none;
   padding: 20px;
+  background-color: var(--bg-primary);
 }
 
 .row {
@@ -53,13 +87,15 @@
 
 .line {
   position: absolute;
-  background-color: #ccc;
+  background-color: var(--border-color);
   z-index: 0;
 }
+
 .cell.block {
-  background-color: #111;
+  background-color: var(--text-primary);
   pointer-events: none;
 }
+
 .line.top {
   top: -25px;
   left: 50%;
@@ -79,26 +115,26 @@
 .cell {
   width: 50px;
   height: 50px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white;
+  background-color: var(--bg-primary);
   transition: background-color 0.3s;
 }
 
 .cell.blocked {
-  background-color: #333;
+  background-color: var(--text-secondary);
   pointer-events: none;
 }
 
 .cell.active {
-  background-color: #d2f0d2;
+  background-color: var(--accent-secondary);
 }
 
 .cell.invalid {
-  background-color: #f8d7da;
+  background-color: rgba(var(--text-secondary-rgb), 0.1);
 }
 
 .dot {
@@ -108,9 +144,9 @@
 }
 
 .dot.red {
-  background-color: red;
+  background-color: var(--accent-primary);
 }
 
 .dot.blue {
-  background-color: blue;
+  background-color: var(--accent-secondary);
 }
