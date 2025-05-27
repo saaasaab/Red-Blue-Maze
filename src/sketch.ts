@@ -32,9 +32,6 @@ export default function sketch(params: ISketch) {
   let hoverCell: [number, number] | null = null;
   let hoverStartTime: number = 0;
 
-
-
-
   let path = pathRef.current;
   let cellSize = getFittingCellSize(mazeDots.length, mazeDots[0].length)
   let isDragging = false;
@@ -49,10 +46,8 @@ export default function sketch(params: ISketch) {
 
     p.setup = () => {
       p.frameRate(10);
-      p.clear(); // Clear the canvas
+      p.clear(); 
       p.angleMode(p.DEGREES);
-
-
 
       if (canvasRef.current) {
         const canvas = p.createCanvas(mazeDots[0].length * cellSize, mazeDots.length * cellSize);
