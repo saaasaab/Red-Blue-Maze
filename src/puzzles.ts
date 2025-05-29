@@ -22,7 +22,7 @@ export const defaultPuzzle = [
 ]
 export const puzzles: Record<string, (string | null)[][]> =
 {
-    "2025-03-30": [
+    "2025-05-30": [
         [BLOCK, BLOCK, BLOCK, BLOCK, RED, EMPTY, EMPTY, STARTBLUE],
         [BLOCK, RED, EMPTY, EMPTY, EMPTY, BLOCK, EMPTY, BLOCK],
         [BLOCK, EMPTY, BLOCK, BLUE, EMPTY, BLOCK, EMPTY, BLOCK],
@@ -35,7 +35,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [BLOCK, BLOCK, EMPTY, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK],
         [ENDRED, EMPTY, BLUE, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK],
     ],
-    "2025-03-31": [
+    "2025-05-31": [
         [BLOCK, BLOCK, EMPTY, RED, EMPTY, BLUE, EMPTY, ENDRED],
         [BLOCK, BLOCK, EMPTY, BLOCK, BLUE, BLOCK, RED, BLOCK],
         [EMPTY, BLUE, EMPTY, RED, EMPTY, EMPTY, EMPTY, BLOCK],
@@ -49,7 +49,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [BLOCK, BLOCK, EMPTY, RED, EMPTY, BLUE, EMPTY, STARTRED],
 
     ],
-    "2025-04-01": [
+    "2025-06-01": [
         ["start-red", "blue", null, null, null, null, null, null],
         [null, null, "block", null, null, null, "block", null],
         [null, "block", null, null, null, "block", null, null],
@@ -62,7 +62,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [null, "block", null, "block", "red", null, "block", null],
         ["end-blue", null, null, null, "block", null, null, null]
     ],
-    "2025-04-02": [
+    "2025-06-02": [
         // This is the one from https://puzzling.stackexchange.com/questions/47243/a-blue-white-and-red-maze
         [ENDBLUE, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK],
         [EMPTY, BLUE, EMPTY, RED, EMPTY, EMPTY, EMPTY, BLOCK],
@@ -76,7 +76,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [EMPTY, EMPTY, EMPTY, RED, EMPTY, EMPTY, EMPTY, BLOCK],
         [BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, STARTRED, BLOCK],
     ],
-    "2025-04-03": [
+    "2025-06-03": [
 
         [BLOCK, BLOCK, BLOCK, BLOCK, BLUE, EMPTY, EMPTY, STARTRED],
         [BLOCK, BLUE, EMPTY, EMPTY, EMPTY, BLOCK, EMPTY, BLOCK],
@@ -92,7 +92,7 @@ export const puzzles: Record<string, (string | null)[][]> =
 
     ],
 
-    "2025-04-04": [
+    "2025-06-04": [
         [null, null, null, null, null, null, "blue", "start-blue"],
         [null, null, null, null, null, "block", null, null],
         [null, null, "block", "block", null, "blue", "block", null],
@@ -106,7 +106,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [null, null, "blue", null, "blue", "block", null, "end-red"]
     ],
 
-    "2025-04-05": [
+    "2025-06-05": [
         ["start-red", null, null, null, null, "red", null, null],
         [null, null, "red", null, "red", null, null, null],
         ["block", "blue", null, "red", null, null, null, null],
@@ -120,7 +120,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [null, "block", null, null, "red", null, "blue", "start-blue"]
     ],
 
-    "2025-04-06": [
+    "2025-06-06": [
         [null, null, null, null, null, null, null, null],
         [null, "block", null, null, null, "block", null, null],
         ["block", "block", null, null, "block", null, "block", null],
@@ -133,7 +133,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         ["block", null, null, null, "block", "blue", "red", null],
         ["end-red", null, null, null, "block", null, "blue", "start-blue"]
     ],
-    "2025-04-07": [
+    "2025-06-07": [
         ["red", null, null, null, null, "block", null, "start-blue"],
         [null, "blue", null, null, "red", "red", null, "block"],
         [null, "blue", "block", null, "blue", "block", null, null],
@@ -147,7 +147,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         ["end-red", "blue", null, "red", "red", null, null, null]
     ],
 
-    "2025-04-08": [
+    "2025-06-08": [
         [null, null, null, null, null, null, null, null],
         [null, null, null, "block", null, null, null, null],
         [null, "block", "block", "red", null, "blue", null, null],
@@ -160,7 +160,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         ["red", "block", null, "blue", "blue", "block", "block", null],
         ["end-blue", null, "blue", null, null, null, "blue", "start-red"]
     ],
-    "2025-04-09": [
+    "2025-06-09": [
         [null, null, null, null, "blue", "blue", "block", "end-blue"],
         [null, null, "red", null, "red", "block", null, "red"],
         [null, "red", "blue", "block", "block", "red", "block", "blue"],
@@ -173,7 +173,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         ["red", "red", "blue", "red", "blue", null, null, null],
         ["start-red", "blue", null, "block", "block", null, null, null]
     ],
-    "2025-04-10": [
+    "2025-06-10": [
         [null, null, null, null, null, null, null, null],
         [null, null, null, null, "block", null, null, null],
         [null, null, null, "blue", null, null, "block", null],
@@ -186,7 +186,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         ["block", null, "block", null, "block", null, null, null],
         ["end-blue", null, null, "blue", null, null, "block", "start-red"]
     ],
-    "2025-04-11": [
+    "2025-06-11": [
         ["end-red", null, null, "block", null, null, null, "start-blue"],
         [null, "block", null, null, "block", "blue", null, null],
         ["block", null, "block", null, "block", null, "block", null],
@@ -200,7 +200,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [null, null, null, null, null, null, null, null]
     ],
 
-    "2025-04-12": [
+    "2025-06-12": [
         ["start-red", "blue", "blue", null, null, "red", null, null],
         [null, "red", null, null, "blue", null, null, null],
         [null, null, "red", null, "blue", null, null, null],
@@ -213,7 +213,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         ["block", "red", "red", "blue", "red", null, null, null],
         ["end-blue", null, "red", "block", null, "red", null, null]
     ],
-    "2025-04-13": [
+    "2025-06-13": [
         ["end-blue", "red", "blue", "red", null, null, "block", "start-red"],
         [null, "red", null, "blue", "blue", null, "block", "blue"],
         ["red", "blue", "block", null, "blue", null, "blue", null],
@@ -226,7 +226,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [null, null, "red", null, null, null, null, null],
         [null, null, null, null, null, null, null, null]
     ],
-    "2025-04-14": [
+    "2025-06-14": [
         ["start-blue", "block", "block", null, null, null, null, "end-red"],
         ["red", null, "red", null, "block", "red", "red", null],
         [null, "block", "blue", null, "red", "block", null, "red"],
@@ -239,7 +239,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null]
     ],
-    "2025-04-15": [
+    "2025-06-15": [
         ["end-red", "block", null, null, null, null, "block", "start-blue"],
         [null, null, "block", null, null, "block", "blue", null],
         ["block", null, "block", null, "blue", "red", "blue", null],
@@ -252,7 +252,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [null, "block", null, "block", "block", null, null, null],
         [null, null, null, null, null, null, null, null]
     ],
-    "2025-04-16": [
+    "2025-06-16": [
         [null, null, null, "red", null, null, null, "start-red"],
         ["block", null, null, "blue", "block", null, "block", null],
         [null, null, null, "block", null, "blue", "block", "block"],
@@ -265,7 +265,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [null, null, null, "block", "blue", null, "red", null],
         ["end-blue", null, null, "block", null, null, null, null]
     ],
-    "2025-04-17": [
+    "2025-06-17": [
         ["end-red", null, null, "block", null, "red", null, "blue"],
         [null, "block", "block", "blue", null, "block", null, null],
         [null, null, "block", "blue", null, "blue", null, null],
@@ -278,7 +278,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [null, "block", "red", null, null, "block", "block", null],
         ["start-blue", null, null, "red", null, null, null, null]
     ],
-    "2025-04-18": [
+    "2025-06-18": [
         ["start-blue", "blue", null, "red", "blue", null, null, null],
         [null, null, "block", null, null, "block", null, null],
         [null, "block", null, null, null, "red", null, null],
@@ -291,7 +291,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [null, null, "blue", "block", "blue", null, null, null],
         ["end-red", "block", null, "block", null, null, null, null]
     ],
-    "2025-04-19": [
+    "2025-06-19": [
         [null, "block", null, null, null, null, null, "end-red"],
         [null, "block", null, "block", null, "block", null, "block"],
         [null, null, null, "block", null, null, "block", null],
@@ -306,7 +306,7 @@ export const puzzles: Record<string, (string | null)[][]> =
     ],
 
     // HOLY COW, this one is awesome.
-    "2025-04-20": [
+    "2025-06-20": [
         ["start-blue", "blue", null, "red", null, null, null, null],
         [null, "block", null, null, null, null, null, null],
         [null, "blue", null, "block", "block", null, null, null],
@@ -319,7 +319,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [null, null, null, null, null, "block", "block", null],
         ["end-red", null, null, "block", null, null, null, null]
     ],
-    "2025-04-21": [
+    "2025-06-21": [
         ["end-red", "blue", null, "block", null, null, null, null],
         ["block", null, "red", null, null, null, null, null],
         [null, null, null, null, null, null, null, null],
@@ -332,7 +332,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [null, "blue", null, "block", null, null, "red", "red"],
         ["block", null, "block", null, null, "block", "block", "start-blue"]
     ],
-    "2025-04-22": [
+    "2025-06-22": [
         ["start-blue", "blue", null, null, null, null, "red", null],
         [null, "blue", "block", null, "block", null, null, null],
         [null, "block", "red", null, "block", null, null, null],
@@ -345,7 +345,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [null, null, "block", null, null, "red", "blue", null],
         [null, null, null, null, null, null, null, "end-red"]
     ],
-    "2025-04-25": [
+    "2025-06-25": [
         ["block", "block", "block", "blue", null, null, null, "end-blue"],
         ["block", null, null, null, null, "blue", null, "block"],
         [null, null, "block", "blue", "block", null, "red", null],
@@ -358,7 +358,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         ["block", null, null, "blue", null, "block", null, "block"],
         ["block", "block", "block", "block", null, null, "blue", "start-red"]
     ],
-    "2025-04-26": [
+    "2025-06-26": [
         [null, null, null, "block", null, null, "red", "end-blue"],
         ["blue", null, null, null, null, "block", null, "block"],
         ["blue", "block", null, "block", null, null, "block", "block"],
@@ -371,7 +371,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         ["block", "block", "red", "block", null, "block", null, "block"],
         ["start-red", null, null, null, null, "block", "block", "block"]
     ],
-    "2025-04-27": [
+    "2025-06-27": [
         ["start-red", "block", "blue", "block", "block", "block", "block", "end-blue"],
         [null, null, null, "block", "red", null, null, null],
         ["blue", "block", "blue", "block", null, "block", null, null],
@@ -384,7 +384,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         ["block", null, "red", null, null, null, null, "block"],
         ["block", "block", "block", "block", "blue", "block", "block", "block"]
     ],
-    "2025-04-28": [
+    "2025-06-28": [
         ["block", null, null, "red", null, null, null, null],
         ["block", null, "red", "block", null, null, null, null],
         [null, null, "block", null, null, null, null, "blue"],
@@ -397,7 +397,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         ["blue", null, null, null, "block", "block", "red", null],
         ["start-red", "block", "block", null, "blue", null, null, "end-blue"]
     ],
-    "2025-04-29": [
+    "2025-06-29": [
         ["end-blue", "block", "block", "block", "block", "block", null, "start-red"],
         [null, "red", "block", null, null, "block", "blue", "block"],
         ["blue", null, "block", null, "block", null, null, null],
@@ -410,7 +410,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         ["block", "block", null, null, "blue", null, null, "block"],
         ["block", "blue", "block", "block", "block", "block", "block", "block"]
     ],
-    "2025-04-30": [
+    "2025-06-30": [
         ["start-red", null, "red", null, null, "block", "block", "block"],
         ["blue", "blue", null, "block", null, null, "block", "block"],
         ["block", null, "blue", "block", "blue", "block", "red", "block"],
@@ -423,7 +423,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         ["red", "blue", null, "block", "block", null, null, "block"],
         ["end-blue", "block", "block", "block", "block", "block", "block", "block"]
     ],
-    "2025-05-01": [
+    "2025-07-01": [
         ["start-red", "red", null, "block", "block", "red", "block", "block"],
         [null, "blue", null, "block", "blue", null, null, "block"],
         ["red", "block", null, null, "block", "block", null, "block"],
@@ -436,7 +436,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         ["block", null, "blue", "block", null, null, null, "red"],
         ["block", "block", "block", "block", "block", "block", "block", "end-blue"]
     ],
-    "2025-05-02": [
+    "2025-07-02": [
         ["start-red", null, "block", "block", "block", "block", null, "end-blue"],
         ["block", null, null, null, null, "block", null, "block"],
         ["block", null, null, "block", null, null, "red", "block"],
@@ -449,7 +449,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [null, null, null, null, null, "block", null, "block"],
         ["block", "block", "block", "blue", "blue", null, null, "block"]
     ],
-    "2025-05-03": [
+    "2025-07-03": [
         ["end-blue", null, "block", "block", "block", "block", "block", "blue"],
         ["block", null, null, null, null, null, null, "block"],
         [null, null, null, null, null, null, "block", "block"],
@@ -462,7 +462,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         ["block", "block", null, "block", null, null, null, "block"],
         ["start-red", "blue", null, "blue", "block", "block", "block", "block"]
     ],
-    "2025-05-04": [
+    "2025-07-04": [
         ["block", "block", "block", null, null, null, null, "end-blue"],
         ["block", "blue", null, null, "blue", null, null, "block"],
         ["block", null, "blue", null, null, null, null, "block"],
@@ -475,7 +475,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         ["block", "block", "block", "block", null, null, "block", "block"],
         ["block", "blue", "block", "block", "block", null, null, "start-red"]
     ],
-    "2025-05-05": [
+    "2025-07-05": [
         ["block", "block", "block", "block", "block", "block", "block", "block"],
         ["block", null, "blue", null, "block", null, null, "block"],
         ["block", null, null, "block", "blue", null, null, "block"],
@@ -488,7 +488,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         ["red", "block", "blue", null, "block", null, null, "block"],
         ["start-red", null, null, "blue", "block", "block", null, "end-blue"]
     ],
-    "2025-05-06": [
+    "2025-07-06": [
         ["start-red", "block", "block", "block", "block", "block", "block", "end-blue"],
         ["blue", "red", null, null, null, "red", "blue", null],
         [null, "red", "block", null, null, "block", "block", "red"],
@@ -501,7 +501,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [null, null, null, null, null, null, null, "block"],
         ["block", "block", "block", "blue", "block", "block", "block", "block"]
     ],
-    "2025-05-07": [
+    "2025-07-07": [
         ["start-red", "blue", null, null, null, null, null, null],
         ["block", null, "block", null, "blue", null, null, null],
         ["block", "blue", "blue", null, "block", null, null, null],
@@ -514,7 +514,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         ["block", null, "blue", null, null, null, "block", "block"],
         ["end-blue", "red", "block", "block", "blue", "block", "block", "block"]
     ],
-    "2025-05-08": [
+    "2025-07-08": [
         ["start-red", "blue", null, "block", "block", "red", "block", "block"],
         ["block", "block", null, null, "blue", null, null, "blue"],
         ["block", "block", null, null, "block", null, null, "block"],
@@ -527,7 +527,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         ["block", null, null, "red", null, null, "red", "block"],
         ["end-blue", null, "blue", "block", "block", null, "blue", "block"]
     ],
-    "2025-05-09": [
+    "2025-07-09": [
         ["block", "block", "block", "blue", "block", "block", "blue", "start-red"],
         ["red", null, null, "red", null, null, null, "block"],
         ["block", null, null, null, "block", "block", "block", "block"],
@@ -540,7 +540,7 @@ export const puzzles: Record<string, (string | null)[][]> =
         [null, "red", "blue", null, "blue", "blue", null, "block"],
         ["end-blue", "red", "red", null, "red", "block", "block", "block"]
     ],
-    "2025-05-10":[
+    "2025-07-10":[
         [
             "block",
             "block",
@@ -652,7 +652,7 @@ export const puzzles: Record<string, (string | null)[][]> =
             "start-red"
         ]
     ],
-    "2025-05-11":[
+    "2025-07-11":[
         [
             "start-red",
             null,
@@ -764,7 +764,7 @@ export const puzzles: Record<string, (string | null)[][]> =
             "block"
         ]
     ],
-    "2025-05-12":[
+    "2025-07-12":[
         [
             "block",
             "block",
@@ -876,7 +876,7 @@ export const puzzles: Record<string, (string | null)[][]> =
             "start-red"
         ]
     ],
-    "2025-05-13":[
+    "2025-07-13":[
         [
             "block",
             "block",
@@ -988,7 +988,7 @@ export const puzzles: Record<string, (string | null)[][]> =
             "end-blue"
         ]
     ],
-    "2025-05-14":[
+    "2025-07-14":[
         [
             "block",
             "block",
@@ -1100,7 +1100,7 @@ export const puzzles: Record<string, (string | null)[][]> =
             "start-red"
         ]
     ],
-    "2025-05-15":[
+    "2025-07-15":[
         [
             "block",
             "block",
@@ -1212,7 +1212,7 @@ export const puzzles: Record<string, (string | null)[][]> =
             "end-blue"
         ]
     ],
-    "2025-05-16":[
+    "2025-07-16":[
         [
             "start-red",
             null,
@@ -1324,7 +1324,7 @@ export const puzzles: Record<string, (string | null)[][]> =
             "end-blue"
         ]
     ],
-    "2025-05-17":[
+    "2025-07-17":[
         [
             "block",
             null,
@@ -1436,7 +1436,7 @@ export const puzzles: Record<string, (string | null)[][]> =
             "end-blue"
         ]
     ],
-    "2025-05-18":[
+    "2025-07-18":[
         [
             "block",
             "block",
@@ -1548,7 +1548,7 @@ export const puzzles: Record<string, (string | null)[][]> =
             "start-red"
         ]
     ],
-    "2025-05-19":[
+    "2025-07-19":[
         [
             "block",
             null,
@@ -1660,7 +1660,7 @@ export const puzzles: Record<string, (string | null)[][]> =
             "start-red"
         ]
     ],
-    "2025-05-20":[
+    "2025-07-20":[
         [
             "start-red",
             null,
@@ -1772,8 +1772,8 @@ export const puzzles: Record<string, (string | null)[][]> =
             "end-blue"
         ]
     ],
-    //  "2025-05-21": 
-    // "2025-05-22"
+    //  "2025-07-21": 
+    // "2025-07-22"
 
 
 
