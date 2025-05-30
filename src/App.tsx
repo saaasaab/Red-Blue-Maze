@@ -38,7 +38,7 @@ function App() {
     const today = getTodayDate()
 
     mazeDotsRef.current = puzzles[today] ? puzzles[today] : defaultPuzzle;
-    // /maze;  
+    // maze;  
 
     const { start, end } = findSpecialCells(mazeDotsRef.current)
     // findSpecialCells(mazeDotsRef.current)
@@ -132,17 +132,13 @@ function App() {
     startRef.current = start
     endRef.current = end
 
-
     const { maze: _maze } = findSpecialCells(maze)
-
 
     mazeDotsRef.current = _maze;
     pathRef.current = [];
 
-
     const _generateNewCount = generateNewCount + 1;
     setGenerateNewCount(_generateNewCount);
-
   }
 
   // useEffect(()=>{

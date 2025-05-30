@@ -120,6 +120,8 @@ export function generateMaze(rows: number, cols: number): { maze: Grid, path: Co
   maze[end[0]][end[1]] = 'blue';
 
 
+
+  // Creates a maze with a random start and end with NO obstacles
   const validPath = searchValidPathBFS(
     start,
     end,
@@ -129,11 +131,6 @@ export function generateMaze(rows: number, cols: number): { maze: Grid, path: Co
   // let basePath = aStarPath(start, end, rows, cols);
 
   const path: Coord[] = [...(validPath.path as Coord[])];
-
-
-
-
-
 
   let sameCount = 0;
   let pathCount = 0;
@@ -179,10 +176,8 @@ export function generateMaze(rows: number, cols: number): { maze: Grid, path: Co
 
       const _maze = JSON.parse(JSON.stringify(maze));
 
-
       const randomPathPointIndex = getRandomInt(1, path.length - 2);
       const randomPathPoint = path[randomPathPointIndex];
-
 
 
       const color: 'red' | 'blue' = lastColor === 'red' ? 'blue' : 'red';
@@ -193,13 +188,10 @@ export function generateMaze(rows: number, cols: number): { maze: Grid, path: Co
         _maze[randomPathPoint[0]][randomPathPoint[1]] = color;
         lastColor = color;
       }
-
       else if (
         _maze[randomPathPoint[0]][randomPathPoint[1]] !== 'blue' &&
         _maze[randomPathPoint[0]][randomPathPoint[1]] !== 'red'
       ) {
-
-
         _maze[randomPathPoint[0]][randomPathPoint[1]] = 'block';
       }
 
