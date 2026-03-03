@@ -33,21 +33,24 @@ function App() {
 
   useEffect(() => {
 
-    // const { maze, start, end } = generateMaze(rows, cols) // path,
 
-    const today = getTodayDate()
+    // const today = getTodayDate()
 
-    mazeDotsRef.current = puzzles[today] ? puzzles[today] : defaultPuzzle;
-    // maze;  
+    // mazeDotsRef.current = puzzles[today] ? puzzles[today] : defaultPuzzle;
+    // // maze;  
 
-    const { start, end } = findSpecialCells(mazeDotsRef.current)
-    // findSpecialCells(mazeDotsRef.current)
+    // const { start, end } = findSpecialCells(mazeDotsRef.current)
+    // // findSpecialCells(mazeDotsRef.current)
 
-    console.log(`today`, today)
-    startRef.current = start
-    endRef.current = end
-    // pathRef.current = path
-    // visitedRef.current = visited;
+    // console.log(`today`, today)
+    // startRef.current = start
+    // endRef.current = end
+
+
+
+    onNewMaze()
+
+
   }, [])
 
   useEffect(() => {
@@ -123,8 +126,8 @@ function App() {
   const onNewMaze = () => {
     setGameWon(false);
 
-    const rows = 11;
-    const cols = 8;
+    const rows = 15;
+    const cols = 13;
 
 
     const { maze, start, end } = generateMaze(rows, cols) // path,

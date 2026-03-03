@@ -136,12 +136,12 @@ export function generateMaze(rows: number, cols: number): { maze: Grid, path: Co
   let pathCount = 0;
   let lastColor = maze[path[0][0]][path[0][1]]
 
-  while (path.length < 60 && count < 1000) {
+  while (path.length < 140 && count < 2000) {
 
     count++;
 
     if (count % 200 === 0) {
-      console.log(`count`, count)
+      console.log(`count`, count,path.length)
     }
 
     if (path.length === pathCount) {
@@ -151,7 +151,7 @@ export function generateMaze(rows: number, cols: number): { maze: Grid, path: Co
     pathCount = path.length;
 
     // CHANGE THIS NUMBER UP OR DOWN TO MAKE THE BLOCKS MORE OR LESS
-    if (sameCount > 60) {
+    if (sameCount > 120) {
       sameCount = 0;
 
       const blocks = getRandomBlocks(maze)
@@ -213,8 +213,6 @@ export function generateMaze(rows: number, cols: number): { maze: Grid, path: Co
       if (isValidPath.path.length) {
         path.splice(0, path.length, ...isValidPath.path);
         maze.splice(0, maze.length, ..._maze);
-
-
       }
     }
 
@@ -237,7 +235,7 @@ export function generateMaze(rows: number, cols: number): { maze: Grid, path: Co
     start,
     end)
 
-  console.log(`__maze`, __maze, __path.path.length)
+
 
   return { maze: ___maze, path: __path.path, start, end }
 }
